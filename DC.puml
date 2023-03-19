@@ -1,0 +1,49 @@
+@startuml
+class Belote {
+    +Belote()
+}
+
+class Equipe {
+    -nom: string
+    -score: int
+    +Equipe(nom: string)
+    +getNom(): string
+    +getScore(): int
+    +ajouterPoints(points: int)
+}
+
+class Fenetre {
+    +Fenetre()
+    -afficherAccueil(): void
+    -afficherMatch(): void
+    -afficherTournoi(): void
+}
+
+class Match {
+    -equipe1: Equipe
+    -equipe2: Equipe
+    -pointsMax: int
+    -pointsGagnants: int
+    -manches: int
+    +Match(equipe1: Equipe, equipe2: Equipe, pointsMax: int, manches: int)
+    +jouer(): void
+    -jouerManche(numeroManche: int): void
+    -afficherScores(): void
+    -afficherGagnant(): void
+}
+
+class Tournoi {
+    -equipes: Equipe[]
+    -pointsMax: int
+    -manches: int
+    +Tournoi(equipes: Equipe[], pointsMax: int, manches: int)
+    +jouer(): void
+    -jouerMatchs(): void
+    -afficherClassement(): void
+}
+
+Belote --> Equipe
+Belote --> Fenetre
+Belote --> Match
+Belote --> Tournoi
+@enduml
