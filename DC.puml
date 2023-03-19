@@ -1,49 +1,56 @@
 @startuml
 class Belote {
+    -equipes: List<Equipe>
+    -matchs: List<Match>
     +Belote()
+    +creerEquipe(nom: str): Equipe
+    +creerMatch(equipe1: Equipe, equipe2: Equipe): Match
 }
 
 class Equipe {
-    -nom: string
-    -score: int
-    +Equipe(nom: string)
-    +getNom(): string
-    +getScore(): int
-    +ajouterPoints(points: int)
+    -joueurs: List[str]
+    -belote: Belote
+    -matchs: List<Match>
+    +Equipe(nom: str, belote: Belote)
+    +ajouterJoueur(joueur: str)
+    +getJoueurs(): List[str]
+    +getMatchs(): List<Match>
 }
 
 class Fenetre {
-    +Fenetre()
-    -afficherAccueil(): void
-    -afficherMatch(): void
-    -afficherTournoi(): void
+    -belote: Belote
+    +Fenetre(belote: Belote)
+    +afficherMatchs()
+    +afficherEquipes()
 }
 
 class Match {
     -equipe1: Equipe
     -equipe2: Equipe
-    -pointsMax: int
-    -pointsGagnants: int
-    -manches: int
-    +Match(equipe1: Equipe, equipe2: Equipe, pointsMax: int, manches: int)
-    +jouer(): void
-    -jouerManche(numeroManche: int): void
-    -afficherScores(): void
-    -afficherGagnant(): void
+    -belote: Belote
+    -score1: int
+    -score2: int
+    +Match(equipe1: Equipe, equipe2: Equipe, belote: Belote)
+    +getEquipe1(): Equipe
+    +getEquipe2(): Equipe
+    +getScore1(): int
+    +getScore2(): int
+    +setScore1(score: int)
+    +setScore2(score: int)
 }
 
 class Tournoi {
-    -equipes: Equipe[]
-    -pointsMax: int
-    -manches: int
-    +Tournoi(equipes: Equipe[], pointsMax: int, manches: int)
-    +jouer(): void
-    -jouerMatchs(): void
-    -afficherClassement(): void
+    -belote: Belote
+    -equipes: List<Equipe>
+    +Tournoi(belote: Belote)
+    +inscrireEquipe(equipe: Equipe)
+    +getEquipes(): List<Equipe>
 }
-
-Belote --> Equipe
-Belote --> Fenetre
-Belote --> Match
-Belote --> Tournoi
+Equipe "1" -- "0..*" Match : participe à
+Belote "1" -- "0..*" Equipe : contient
+Belote "1" -- "0..*" Match : contient
+Match "2" -- "0..1" Equipe : équipe 1
+Match "2" -- "0..1" Equipe : équipe 2
+Match "1" -- "0..*" Tournoi : appartient à
+Fenetre "1" -- "1" Belote : utilise
 @enduml
