@@ -49,7 +49,7 @@ tour <.. tourdel : <<extend>>
 (Ajouter) as matchnew
 (Supprimer dernier match) as matchdel
 
-match -> user
+match <- user
 
 match <.left. matchnew : <<extend>>
 match <.left. matchdel : <<extend>>
