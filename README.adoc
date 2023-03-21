@@ -63,9 +63,7 @@ Projet est réalisé par::
 
 == Livrables
 
-=== Etape 1 - Analyse du code existant
-
-link:doc/analyse_existant.adoc[Analyse de l'existant]
+=== link:doc/analyse_existant.adoc[Etape 1 - Analyse du code existant]
 
 == Contexte général
 
