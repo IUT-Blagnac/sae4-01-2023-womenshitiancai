@@ -1,0 +1,63 @@
+@startuml uc
+
+actor Utilisateur as user
+
+' Tournoi
+
+(Gérer tournoi) as t
+(Créer) as tnew
+(Supprimer) as tdel
+
+t <-- user
+
+tnew ..> t : <<extend>>
+tdel ..> t : <<extend>>
+
+
+' Equipe
+
+(Gérer équipe) as e
+(Ajouter) as enew
+(Supprimer) as edel
+(Valider) as eval
+
+user -> e
+
+e <.up. enew : <<extend>>
+
+e <.right. edel : <<extend>>
+enew -[hidden]- edel
+
+e <.right. eval : <<extend>>
+edel -[hidden]- eval
+
+
+' Tours
+
+(Gérer tour) as tour
+(Ajouter) as tournew
+(Supprimer dernier tour) as tourdel
+
+user --> tour
+
+tour <.. tournew : <<extend>>
+tour <.. tourdel : <<extend>>
+
+' Match
+
+(Gérer match) as match
+(Ajouter) as matchnew
+(Supprimer dernier match) as matchdel
+
+match -> user
+
+match <.left. matchnew : <<extend>>
+match <.left. matchdel : <<extend>>
+matchnew -[hidden]- matchdel
+
+' Résultats
+
+user --> (Afficher les résultats)
+(Afficher les résultats) ..> (Afficher le gagner) : <<include>>
+
+@enduml

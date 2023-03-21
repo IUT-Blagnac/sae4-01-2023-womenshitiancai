@@ -46,11 +46,12 @@ class Tournoi {
     +inscrireEquipe(equipe: Equipe)
     +getEquipes(): List<Equipe>
 }
-Equipe "1" -- "0..*" Match : participe à
+Equipe "1" - "0..*" Match : participe à
 Belote "1" -- "0..*" Equipe : contient
 Belote "1" -- "0..*" Match : contient
-Match "2" -- "0..1" Equipe : équipe 1
-Match "2" -- "0..1" Equipe : équipe 2
+Match "2" - "0..1" Equipe : équipe 1
+Match "2" - "0..1" Equipe : équipe 2
 Match "1" -- "0..*" Tournoi : appartient à
 Fenetre "1" -- "1" Belote : utilise
+
 @enduml

@@ -1,4 +1,4 @@
-= Etape 1 : Analyse de l'existant
+= Etape 1 : Analyse du code existant
 Louis Yvelin/Anton Xu
 2A, 20/03/2023
 :toc: auto
@@ -14,11 +14,27 @@ toc::[]
 
 == Présentation
 
-Dans le cadre de cette SAE Refactoring, nous recevons le code source d'une application de gestion de tournois de Belote. +
-Cette application codée en Java Swing a pour but d'être refactoré par notre équipe pour l'améliorer en utilisant des patrons de conception.
+Dans le cadre de cette SAE Refactoring, nous recevons le code source d'une application Java de gestion de tournois de Belote. +
 
-== Diagramme des cas d'utilisation
+Cette application dont l'interface utilisateur a été réalisée grâce à la bibliothèque Swing a pour but d'être refactoré par notre équipe pour l'améliorer en utilisant des patrons de conception ainsi que des bonnes pratiques de programmation.
+
+== Cas d'utilisation
+
+L'utilisateur a plusieurs actions qu'il peut réaliser :
+
+- Gérer le tournoi
+- Gérer l'équipe
+- Gérer le tour
+- Gérer le match
+- Afficher les résultats
+
+=== Diagramme des cas d'utilisation
+
+image::assets/uc.png[uc]
+
+== Classes
+
+=== Diagramme de classes
 
 
-
-== Diagramme de classes
+image::assets/dc.png[dc]
