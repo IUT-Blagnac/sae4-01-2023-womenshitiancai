@@ -93,7 +93,7 @@ Cette classe MatchM représente un match de belote. Elle contient les attributs 
 Le constructeur prend en paramètre tous ces attributs et permet de créer un objet MatchM initialisé avec ces valeurs. +
 La méthode "toString" permet de renvoyer une représentation en chaîne de caractères de l'objet MatchM, qui affiche les deux équipes qui s'affrontent dans le match.
 
-==== Équipe
+==== Equipe
 Cette classe Java est une représentation d'une équipe de Belote. Elle possède quatre attributs : l'identifiant unique de l'équipe, le numéro d'affichage, le nom du premier équipier et le nom du deuxième équipier. Le constructeur de la classe permet de créer une instance d'équipe en initialisant ces attributs. La visibilité des attributs est publique, ce qui permet de les accéder directement depuis d'autres classes, sans passer par des méthodes.
 
 ==== Fenetre
