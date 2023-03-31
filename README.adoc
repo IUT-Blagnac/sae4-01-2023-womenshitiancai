@@ -65,6 +65,22 @@ Projet est réalisé par::
 
 === link:doc/analyse_existant.adoc[Etape 1 - Analyse du code existant]
 
+== Refactoring
+
+=== Structuration en packages (MVC) 
+
+==== Description
+
+Ce refactoring consiste à structurer l'application afin de séparer les responsabilités de chaque classe dans des paquetages associés à leur fonction.
+
+* model
+* view
+* controller
+
+==== Issues associées
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
+
 == Contexte général
 
 TIP: Cette partie de votre `README.adoc` peut être supprimée ou mise ailleurs.
