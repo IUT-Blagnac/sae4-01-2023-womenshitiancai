@@ -67,7 +67,7 @@ Projet est réalisé par::
 
 == Refactoring
 
-=== Structuration en packages (MVC) 
+=== Structuration en packages (MVC)
 
 ==== Description
 
@@ -80,6 +80,19 @@ Ce refactoring consiste à structurer l'application afin de séparer les respons
 ==== Issues associées
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
+
+=== Migration sous Maven 
+
+==== Description
+
+Ce refactoring consiste à migrer l'application pour qu'elle utilise Maven. +
+De cette manière, nous rendons automatique la build ainsi que la gestion des dépendances.
+
+Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa commande exec:java.
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/2[Migrer sous Maven #2]
 
 == Contexte général
 
