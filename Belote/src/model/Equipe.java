@@ -1,3 +1,4 @@
+package model;
 
 public 	class Equipe{
 	/**
@@ -7,7 +8,7 @@ public 	class Equipe{
 	 * @param _eq1 équipier 1
 	 * @param _eq2 équipier 2
 	 */
-	Equipe( int _id, int _num, String _eq1, String _eq2){
+	public Equipe( int _id, int _num, String _eq1, String _eq2){
 		id = _id;
 		num = _num;
 		eq1 = _eq1;
