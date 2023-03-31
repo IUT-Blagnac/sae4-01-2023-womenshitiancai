@@ -73,11 +73,17 @@ Projet est réalisé par::
 
 Ce refactoring consiste à structurer l'application afin de séparer les responsabilités de chaque classe dans des paquetages associés à leur fonction.
 
-* model
-* view
-* controller
+Ce refactoring est très important à réaliser afin de poursuivre le refactoring. En effet, les différents paquetages (qui évolueront au fil du refactoring) permettent d'avoir une vision globale de la séparation des fonctions présentes dans chaque classe.
 
-==== Issues associées
+* model
+** Equipe
+** MatchM
+* view
+** Fenetre
+* controller
+** Tournoi
+
+==== Issue associée
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
 
@@ -88,7 +94,7 @@ Ce refactoring consiste à structurer l'application afin de séparer les respons
 Ce refactoring consiste à migrer l'application pour qu'elle utilise Maven. +
 De cette manière, nous rendons automatique la build ainsi que la gestion des dépendances.
 
-Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa commande exec:java.
+Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa commande `mvn exec:java`.
 
 ==== Issue associée
 
