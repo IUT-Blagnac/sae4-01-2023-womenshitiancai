@@ -1,3 +1,4 @@
+package view;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -25,6 +26,10 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
+
+import controller.Tournoi;
+import model.Equipe;
+import model.MatchM;
 
 
 

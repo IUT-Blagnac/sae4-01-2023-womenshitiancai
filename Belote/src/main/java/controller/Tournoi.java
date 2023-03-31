@@ -1,3 +1,4 @@
+package controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,11 +7,14 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
+import model.Equipe;
+import model.MatchM;
+
 public class Tournoi {
 	String statuttnom;
 	String nt;
 	int    statut;
-	int    id_tournoi;
+	public int    id_tournoi;
 	//int    nbtours;
 	private Vector<Equipe> dataeq = null;
 	private Vector<MatchM> datam  = null;
