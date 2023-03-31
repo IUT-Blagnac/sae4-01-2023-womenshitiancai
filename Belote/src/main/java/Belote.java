@@ -43,7 +43,7 @@ public class Belote {
         try {  
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
             
-            String dos = System.getProperty("user.dir")+ "\\Belote\\src\\resources";
+            String dos = System.getProperty("user.dir")+ "\\src\\resources";
             System.out.println("Dossier de stockage: " + dos);
             if( !new File(dos).isDirectory() ){
                 new File(dos).mkdir();
