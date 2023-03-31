@@ -43,12 +43,12 @@ public class Belote {
         try {  
             Class.forName("org.hsqldb.jdbcDriver").newInstance();
             
-            String dos = System.getProperty("user.dir")+ "\\Belote";
-            System.out.println("Dossier de stockage:" + dos);
+            String dos = System.getProperty("user.dir")+ "\\Belote\\src\\resources";
+            System.out.println("Dossier de stockage: " + dos);
             if( !new File(dos).isDirectory() ){
                 new File(dos).mkdir();
             }
-            connection = DriverManager.getConnection("jdbc:hsqldb:file:" + dos + "\\jbelote","sa","");  
+            connection = DriverManager.getConnection("jdbc:hsqldb:file:" + dos + "\\bd","sa","");  
             statement = connection.createStatement();  
             
             importSQL(connection, new File(dos+"\\create.sql"));

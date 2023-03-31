@@ -3,12 +3,12 @@
   <groupId>fr.iutblagnac.belote</groupId>
   <artifactId>belote</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-
+  
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
-
+  
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
     <dependency>
@@ -30,8 +30,18 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
+
   <build>
+    
+    <!-- Ajouter les ressources -->
+    <resources>
+      <resource>
+        <directory>src/resources</directory>
+      </resource>
+    </resources>
+
     <plugins>
+      <!-- exec -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
@@ -45,6 +55,8 @@
         </executions>
         <configuration>
           <mainClass>Belote</mainClass>
+          <!-- optional -->
+          <workingDirectory>/tmpsf</workingDirectory>
           <environmentVariables>
             <LANG>en_US</LANG>
           </environmentVariables>
