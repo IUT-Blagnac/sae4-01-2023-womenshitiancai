@@ -8,7 +8,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import model.Equipe;
-import model.MatchM;
+import model.Match;
 
 public class Tournoi {
 	private String statuttnom;
@@ -19,7 +19,7 @@ public class Tournoi {
 	
 	//int    nbtours;
 	private Vector<Equipe> dataeq = null;
-	private Vector<MatchM> datam  = null;
+	private Vector<Match> datam  = null;
 	private Vector<Integer>ideqs  = null; 
 	private Statement st;
 	
@@ -91,10 +91,10 @@ public class Tournoi {
 		}
 	}
 	public void majMatch(){
-		datam = new Vector<MatchM>();
+		datam = new Vector<Match>();
 		try {
 			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ getId_tournoi() + ";");
-			while(rs.next()) datam.add(new MatchM(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
+			while(rs.next()) datam.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
 			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
@@ -102,7 +102,7 @@ public class Tournoi {
 			System.out.println(e.getMessage());
 		}
 	}
-	public MatchM getMatch(int index){
+	public Match getMatch(int index){
 		if(datam == null) majMatch();
 		return datam.get(index);
 	}
@@ -154,7 +154,7 @@ public class Tournoi {
 		char v = ' ';
 		for(Vector<Match> t :ms){
 			for(Match m:t){
-				req += v + "(NULL," + getId_tournoi() + ", " + z + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
+				req += v + "(NULL," + getId_tournoi() + ", " + z + ", "+  m.getEq1() + ", " +  m.getEq2() + ", 'non')";
 				v = ',';
 			}
 			req += "\n";
@@ -196,7 +196,7 @@ public class Tournoi {
 			String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
 			char v = ' ';
 			for(Match m:ms){
-				req += v + "(NULL," + getId_tournoi() + ", " + (nbtoursav + 1) + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
+				req += v + "(NULL," + getId_tournoi() + ", " + (nbtoursav + 1) + ", "+  m.getEq1() + ", " +  m.getEq2() + ", 'non')";
 				v = ',';
 			}
 			req += "\n";
@@ -501,24 +501,5 @@ public class Tournoi {
 			retour.add(vm);
 		}
 		return retour;
-	}  
-
-	static class Match{
-		public int eq1,eq2;
-		public Match(int e1,int e2){
-			eq1 = e1;
-			eq2 = e2;
-		}
-		public String toString(){
-			if(eq1 < eq2){
-				return "  " + eq1 + " contre " + eq2;
-			}else{
-				return "  " + eq2 + " contre " + eq1;
-			}
-		}
 	}
-
-
-	
-
 }

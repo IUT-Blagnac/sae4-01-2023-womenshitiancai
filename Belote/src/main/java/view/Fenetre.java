@@ -29,7 +29,7 @@ import javax.swing.table.AbstractTableModel;
 
 import controller.Tournoi;
 import model.Equipe;
-import model.MatchM;
+import model.Match;
 
 
 
@@ -740,7 +740,7 @@ public class Fenetre extends JFrame {
 					return y > 2 && t.getMatch(x).getNum_tour() == t.getNbTours();
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					MatchM m = t.getMatch(rowIndex);
+					Match m = t.getMatch(rowIndex);
 					if( columnIndex == 0){
 						
 					}else if( columnIndex == 3){

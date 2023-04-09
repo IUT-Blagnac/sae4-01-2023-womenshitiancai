@@ -1,6 +1,6 @@
 package model;
 
-public class MatchM{
+public class Match{
 	private int idmatch;
 	private int eq1;
 	private int eq2;
@@ -20,7 +20,7 @@ public class MatchM{
 	* @param _num_tour tour actuel
 	* @param _termine la partie est-elle finie
 	*/
-	public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine){
+	public Match(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine){
 		idmatch = _idmatch;
 		eq1     = _e1;
 		eq2     = _e2;
@@ -29,7 +29,7 @@ public class MatchM{
 		num_tour= _num_tour;
 		termine = _termine;
 	}
-	public MatchM(int e1,int e2){
+	public Match(int e1,int e2){
 		eq1 = e1;
 		eq2 = e2;
 	}
