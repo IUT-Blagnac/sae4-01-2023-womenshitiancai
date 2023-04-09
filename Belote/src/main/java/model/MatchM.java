@@ -29,6 +29,10 @@ public class MatchM{
 		num_tour= _num_tour;
 		termine = _termine;
 	}
+	public MatchM(int e1,int e2){
+		eq1 = e1;
+		eq2 = e2;
+	}
 	public String toString(){
 		if(eq1 < eq2){
 			return "  " + eq1 + " contre " + eq2;
