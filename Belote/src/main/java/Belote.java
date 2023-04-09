@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import view.Fenetre;
 
 
-public class Belote {    
+public class Belote {
     
     public static void main(String[] args) throws SQLException {
         
@@ -47,8 +47,8 @@ public class Belote {
         
         // Interface graphique
         
-        Fenetre f = new Fenetre(statement);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Fenetre fenetre = new Fenetre(statement);
+        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         //statement.execute("SHUTDOWN;");
         //statement.close();  
@@ -58,31 +58,31 @@ public class Belote {
     
     public static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException
     {
-        Scanner s = new Scanner(in);
-        s.useDelimiter("(;(\r)?\n)|(--\n)");
-        Statement st = null;
+        Scanner scanner = new Scanner(in);
+        scanner.useDelimiter("(;(\r)?\n)|(--\n)");
+        Statement statement = null;
         try
         {
-            st = conn.createStatement();
-            while (s.hasNext())
+            statement = conn.createStatement();
+            while (scanner.hasNext())
             {
-                String line = s.next();
+                String line = scanner.next();
                 if (line.startsWith("/*!") && line.endsWith("*/"))
                 {
-                    int i = line.indexOf(' ');
-                    line = line.substring(i + 1, line.length() - " */".length());
+                    int index = line.indexOf(' ');
+                    line = line.substring(index + 1, line.length() - " */".length());
                 }
                 
                 if (line.trim().length() > 0)
                 {
                     //System.out.println("Req:" + line);
-                    st.execute(line);
+                    statement.execute(line);
                 }
             }
         }
         finally
         {
-            if (st != null) st.close();
+            if (statement != null) statement.close();
         }
     }
 }
