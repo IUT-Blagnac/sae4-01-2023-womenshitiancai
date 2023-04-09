@@ -40,7 +40,7 @@ public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public JPanel c;
-	Statement s;
+	private Statement s;
 	
 	private JTextArea gt;
 	private JPanel ListeTournois;
@@ -65,13 +65,13 @@ public class Fenetre extends JFrame {
 	private boolean resultats_trace = false;
 	
 	private CardLayout fen;
-	final static String TOURNOIS = "Tournois";
-    final static String DETAIL   = "Paramètres du tournoi";
-    final static String EQUIPES  = "Equipes";
-    final static String TOURS    = "Tours";
-    final static String MATCHS   = "Matchs";
-    final static String RESULTATS= "Resultats";
-    public Tournoi t = null;
+	private final static String TOURNOIS = "Tournois";
+    private final static String DETAIL   = "Paramètres du tournoi";
+    private final static String EQUIPES  = "Equipes";
+    private final static String TOURS    = "Tours";
+    private final static String MATCHS   = "Matchs";
+    private final static String RESULTATS= "Resultats";
+    private Tournoi t = null;
     
     private JLabel statut_slect = null;
     private final String statut_deft = "Gestion de tournois de Belote v1.0 - ";
@@ -344,9 +344,9 @@ public class Fenetre extends JFrame {
 		
 	}
     
-	JLabel                     detailt_nom;
-	JLabel                     detailt_statut;
-	JLabel                     detailt_nbtours;
+	private JLabel                     detailt_nom;
+	private JLabel                     detailt_statut;
+	private JLabel                     detailt_nbtours;
 	//JButton                    detailt_enregistrer;
 	
 	public void tracer_details_tournoi(){
@@ -400,10 +400,10 @@ public class Fenetre extends JFrame {
     private JButton            eq_supprimer;
     private JButton            eq_valider;
     private JScrollPane        eq_js;
-    JTable                     eq_jt;
-    JPanel                     eq_p;
-    BoxLayout                  eq_layout;
-    JLabel                     eq_desc;
+    private JTable                     eq_jt;
+    private JPanel                     eq_p;
+    private BoxLayout                  eq_layout;
+    private JLabel                     eq_desc;
 
 	public void tracer_tournoi_equipes(){
 		if(t == null){
@@ -554,15 +554,15 @@ public class Fenetre extends JFrame {
 		
 	}
 
-	JTable                     tours_t;
-	JScrollPane                tours_js;
-	JPanel                     tours_p;
-	BoxLayout                  tours_layout;
-	JLabel                     tours_desc;
+	private JTable                     tours_t;
+	private JScrollPane                tours_js;
+	private JPanel                     tours_p;
+	private BoxLayout                  tours_layout;
+	private JLabel                     tours_desc;
 	
-	JButton                    tours_ajouter;
-	JButton                    tours_supprimer;
-	JButton                    tours_rentrer;
+	private JButton                    tours_ajouter;
+	private JButton                    tours_supprimer;
+	private JButton                    tours_rentrer;
 	
 	public void tracer_tours_tournoi(){
 		
@@ -657,13 +657,13 @@ public class Fenetre extends JFrame {
 
 	private AbstractTableModel match_modele;
     private JScrollPane        match_js;
-    JTable                     match_jt;
-    JPanel                     match_p;
-    BoxLayout                  match_layout;
-    JLabel                     match_desc;
-    JPanel                     match_bas;
-    JLabel                     match_statut;
-    JButton                    match_valider;
+    private JTable                     match_jt;
+    private JPanel                     match_p;
+    private BoxLayout                  match_layout;
+    private JLabel                     match_desc;
+    private JPanel                     match_bas;
+    private JLabel                     match_statut;
+    private JButton                    match_valider;
 
 	public void tracer_tournoi_matchs(){
 		if(t == null){
@@ -793,12 +793,12 @@ public class Fenetre extends JFrame {
 	}
 	
     private JScrollPane        resultats_js;
-    JTable                     resultats_jt;
-    JPanel                     resultats_p;
-    BoxLayout                  resultats_layout;
-    JLabel                     resultats_desc;
-    JPanel                     resultats_bas;
-    JLabel                     resultats_statut;
+    private JTable                     resultats_jt;
+    private JPanel                     resultats_p;
+    private BoxLayout                  resultats_layout;
+    private JLabel                     resultats_desc;
+    private JPanel                     resultats_bas;
+    private JLabel                     resultats_statut;
 
 
 	public void tracer_tournoi_resultats(){
