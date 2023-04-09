@@ -1,6 +1,11 @@
 package model;
 
 public 	class Equipe{
+	private int id;
+	private int num;
+	private String eq1;
+	private String eq2;
+	
 	/**
 	 * Constructeur d'une équipe
 	 * @param _id identifiant unique de l'équipe
@@ -14,8 +19,20 @@ public 	class Equipe{
 		eq1 = _eq1;
 		eq2 = _eq2;
 	}
-	public int id;
-	public int num;
-	public String eq1;
-	public String eq2;
+	
+		public int getId() {return this.id;}
+	
+		public void setId(int id) {this.id = id;}
+	
+		public int getNum() {return this.num;}
+	
+		public void setNum(int num) {this.num = num;}
+	
+		public String getEq1() {return this.eq1;}
+	
+		public void setEq1(String eq1) {this.eq1 = eq1;}
+	
+		public String getEq2() {return this.eq2;}
+	
+		public void setEq2(String eq2) {this.eq2 = eq2;}
 }

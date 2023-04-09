@@ -40,7 +40,7 @@ public class Fenetre extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public JPanel c;
-	Statement s;
+	private Statement s;
 	
 	private JTextArea gt;
 	private JPanel ListeTournois;
@@ -65,13 +65,13 @@ public class Fenetre extends JFrame {
 	private boolean resultats_trace = false;
 	
 	private CardLayout fen;
-	final static String TOURNOIS = "Tournois";
-    final static String DETAIL   = "Paramètres du tournoi";
-    final static String EQUIPES  = "Equipes";
-    final static String TOURS    = "Tours";
-    final static String MATCHS   = "Matchs";
-    final static String RESULTATS= "Resultats";
-    public Tournoi t = null;
+	private final static String TOURNOIS = "Tournois";
+    private final static String DETAIL   = "Paramètres du tournoi";
+    private final static String EQUIPES  = "Equipes";
+    private final static String TOURS    = "Tours";
+    private final static String MATCHS   = "Matchs";
+    private final static String RESULTATS= "Resultats";
+    private Tournoi t = null;
     
     private JLabel statut_slect = null;
     private final String statut_deft = "Gestion de tournois de Belote v1.0 - ";
@@ -193,7 +193,7 @@ public class Fenetre extends JFrame {
 				
 				int total=-1, termines=-1;
 				try {
-					ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.id_tournoi +" GROUP by id_tournoi ;");
+					ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() +" GROUP by id_tournoi ;");
 					rs.next();
 					total    = rs.getInt(1);
 					termines = rs.getInt(2);
@@ -344,9 +344,9 @@ public class Fenetre extends JFrame {
 		
 	}
     
-	JLabel                     detailt_nom;
-	JLabel                     detailt_statut;
-	JLabel                     detailt_nbtours;
+	private JLabel                     detailt_nom;
+	private JLabel                     detailt_statut;
+	private JLabel                     detailt_nbtours;
 	//JButton                    detailt_enregistrer;
 	
 	public void tracer_details_tournoi(){
@@ -400,10 +400,10 @@ public class Fenetre extends JFrame {
     private JButton            eq_supprimer;
     private JButton            eq_valider;
     private JScrollPane        eq_js;
-    JTable                     eq_jt;
-    JPanel                     eq_p;
-    BoxLayout                  eq_layout;
-    JLabel                     eq_desc;
+    private JTable                     eq_jt;
+    private JPanel                     eq_p;
+    private BoxLayout                  eq_layout;
+    private JLabel                     eq_desc;
 
 	public void tracer_tournoi_equipes(){
 		if(t == null){
@@ -433,13 +433,13 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= t.getEquipe(arg0).num;
+						r= t.getEquipe(arg0).getNum();
 					break;
 					case 1:
-						r= t.getEquipe(arg0).eq1;
+						r= t.getEquipe(arg0).getEq1();
 					break;
 					case 2:
-						r= t.getEquipe(arg0).eq2;
+						r= t.getEquipe(arg0).getEq2();
 					break;
 					}
 					return r;
@@ -475,9 +475,9 @@ public class Fenetre extends JFrame {
 					if( columnIndex == 0){
 						
 					}else if( columnIndex == 1){
-						e.eq1 = (String)aValue;
+						e.setEq1((String)aValue);
 					}else if( columnIndex == 2){
-						e.eq2 = (String)aValue;
+						e.setEq2((String)aValue);
 					}
 					t.majEquipe(rowIndex);
 					fireTableDataChanged();
@@ -513,7 +513,7 @@ public class Fenetre extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					if(Fenetre.this.eq_jt.getSelectedRow() != -1){
-						t.supprimerEquipe(t.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).id);
+						t.supprimerEquipe(t.getEquipe(Fenetre.this.eq_jt.getSelectedRow()).getId());
 					}
 					eq_valider.setEnabled(t.getNbEquipes() > 0 && t.getNbEquipes() % 2 == 0) ;
 					eq_modele.fireTableDataChanged();
@@ -554,15 +554,15 @@ public class Fenetre extends JFrame {
 		
 	}
 
-	JTable                     tours_t;
-	JScrollPane                tours_js;
-	JPanel                     tours_p;
-	BoxLayout                  tours_layout;
-	JLabel                     tours_desc;
+	private JTable                     tours_t;
+	private JScrollPane                tours_js;
+	private JPanel                     tours_p;
+	private BoxLayout                  tours_layout;
+	private JLabel                     tours_desc;
 	
-	JButton                    tours_ajouter;
-	JButton                    tours_supprimer;
-	JButton                    tours_rentrer;
+	private JButton                    tours_ajouter;
+	private JButton                    tours_supprimer;
+	private JButton                    tours_rentrer;
 	
 	public void tracer_tours_tournoi(){
 		
@@ -575,7 +575,7 @@ public class Fenetre extends JFrame {
 		Vector<Object> v;
 		boolean peutajouter = true;
 		try {
-			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.id_tournoi + " GROUP BY m.num_tour,m.id_tournoi;");
+			ResultSet rs = s.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
 			while(rs.next()){
 				v = new Vector<Object>();
 				v.add(rs.getInt("num_tour"));
@@ -657,13 +657,13 @@ public class Fenetre extends JFrame {
 
 	private AbstractTableModel match_modele;
     private JScrollPane        match_js;
-    JTable                     match_jt;
-    JPanel                     match_p;
-    BoxLayout                  match_layout;
-    JLabel                     match_desc;
-    JPanel                     match_bas;
-    JLabel                     match_statut;
-    JButton                    match_valider;
+    private JTable                     match_jt;
+    private JPanel                     match_p;
+    private BoxLayout                  match_layout;
+    private JLabel                     match_desc;
+    private JPanel                     match_bas;
+    private JLabel                     match_statut;
+    private JButton                    match_valider;
 
 	public void tracer_tournoi_matchs(){
 		if(t == null){
@@ -691,19 +691,19 @@ public class Fenetre extends JFrame {
 					Object r=null;
 					switch(arg1){
 					case 0:
-						r= t.getMatch(arg0).num_tour;
+						r= t.getMatch(arg0).getNum_tour();
 					break;
 					case 1:
-						r= t.getMatch(arg0).eq1;
+						r= t.getMatch(arg0).getEq1();
 					break;
 					case 2:
-						r= t.getMatch(arg0).eq2;
+						r= t.getMatch(arg0).getEq2();
 					break;
 					case 3:
-						r= t.getMatch(arg0).score1;
+						r= t.getMatch(arg0).getScore1();
 					break;
 					case 4:
-						r= t.getMatch(arg0).score2;
+						r= t.getMatch(arg0).getScore2();
 					break;
 					}
 					return r;
@@ -737,7 +737,7 @@ public class Fenetre extends JFrame {
 					return 5;
 				}
 				public boolean isCellEditable(int x, int y){
-					return y > 2 && t.getMatch(x).num_tour == t.getNbTours();
+					return y > 2 && t.getMatch(x).getNum_tour() == t.getNbTours();
 				}
 				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 					MatchM m = t.getMatch(rowIndex);
@@ -746,7 +746,7 @@ public class Fenetre extends JFrame {
 					}else if( columnIndex == 3){
 						try{
 							int sco = Integer.parseInt((String)aValue);
-							m.score1 = sco;
+							m.setScore1(sco);
 							t.majMatch(rowIndex);
 							
 						}catch(Exception e){
@@ -756,7 +756,7 @@ public class Fenetre extends JFrame {
 					}else if( columnIndex == 4){
 						try{
 							int sco = Integer.parseInt((String)aValue);
-							m.score2 = sco;
+							m.setScore2(sco);
 							t.majMatch(rowIndex);
 							
 						}catch(Exception e){
@@ -793,12 +793,12 @@ public class Fenetre extends JFrame {
 	}
 	
     private JScrollPane        resultats_js;
-    JTable                     resultats_jt;
-    JPanel                     resultats_p;
-    BoxLayout                  resultats_layout;
-    JLabel                     resultats_desc;
-    JPanel                     resultats_bas;
-    JLabel                     resultats_statut;
+    private JTable                     resultats_jt;
+    private JPanel                     resultats_p;
+    private BoxLayout                  resultats_layout;
+    private JLabel                     resultats_desc;
+    private JPanel                     resultats_bas;
+    private JLabel                     resultats_statut;
 
 
 	public void tracer_tournoi_resultats(){
@@ -809,7 +809,7 @@ public class Fenetre extends JFrame {
 		Vector< Vector<Object>> to =new Vector<Vector<Object>>();
 		Vector<Object> v;		
 		try {
-			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.id_tournoi + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.id_tournoi + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.t.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.t.id_tournoi + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
+			ResultSet rs = s.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.t.getId_tournoi() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.t.getId_tournoi() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
 			while(rs.next()){
 				v = new Vector<Object>();
 				v.add(rs.getInt("equipe"));
@@ -868,7 +868,7 @@ public class Fenetre extends JFrame {
 	private void majStatutM(){
 		int total=-1, termines=-1;
 		try {
-			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.id_tournoi +" GROUP by id_tournoi ;");
+			ResultSet rs = s.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.t.getId_tournoi() +" GROUP by id_tournoi ;");
 			rs.next();
 			total    = rs.getInt(1);
 			termines = rs.getInt(2);

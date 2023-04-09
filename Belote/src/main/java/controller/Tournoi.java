@@ -11,16 +11,26 @@ import model.Equipe;
 import model.MatchM;
 
 public class Tournoi {
-	String statuttnom;
-	String nt;
-	int    statut;
-	public int    id_tournoi;
+	private String statuttnom;
+	private String nt;
+	private int statut;
+	private int id_tournoi;
+
+	
 	//int    nbtours;
 	private Vector<Equipe> dataeq = null;
 	private Vector<MatchM> datam  = null;
 	private Vector<Integer>ideqs  = null; 
-	Statement st;
-		
+	private Statement st;
+	
+	public int getId_tournoi() {
+		return this.id_tournoi;
+	}
+
+	public void setId_tournoi(int _id_tournoi) {
+		this.id_tournoi = _id_tournoi;
+	}
+
 	public Tournoi(String nt, Statement s){
 		st = s;
 
@@ -31,7 +41,7 @@ public class Tournoi {
 			}
 			this.statut = rs.getInt("statut");
 			
-			this.id_tournoi = rs.getInt("id_tournoi");
+			setId_tournoi(rs.getInt("id_tournoi"));
 			rs.close();
 
 		} catch (SQLException e) {
@@ -69,7 +79,7 @@ public class Tournoi {
 		dataeq = new Vector<Equipe>();
 		ideqs = new Vector<Integer>();
 		try {
-			ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + id_tournoi + " ORDER BY num_equipe;");
+			ResultSet rs = st.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + getId_tournoi() + " ORDER BY num_equipe;");
 			while(rs.next()){
 				dataeq.add(new Equipe(rs.getInt("id_equipe"),rs.getInt("num_equipe"), rs.getString("nom_j1"), rs.getString("nom_j2")));
 				ideqs.add(rs.getInt("num_equipe"));
@@ -83,7 +93,7 @@ public class Tournoi {
 	public void majMatch(){
 		datam = new Vector<MatchM>();
 		try {
-			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ id_tournoi + ";");
+			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ getId_tournoi() + ";");
 			while(rs.next()) datam.add(new MatchM(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
 			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
@@ -123,7 +133,7 @@ public class Tournoi {
 	}
 	public int getNbTours(){
 		try {
-			ResultSet rs = st.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+id_tournoi+"; ");
+			ResultSet rs = st.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+getId_tournoi()+"; ");
 			rs.next();
 			return rs.getInt(1);
 		} catch (SQLException e) {
@@ -144,7 +154,7 @@ public class Tournoi {
 		char v = ' ';
 		for(Vector<Match> t :ms){
 			for(Match m:t){
-				req += v + "(NULL," + id_tournoi + ", " + z + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
+				req += v + "(NULL," + getId_tournoi() + ", " + z + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
 				v = ',';
 			}
 			req += "\n";
@@ -153,7 +163,7 @@ public class Tournoi {
 		System.out.println(req);
 		try{
 			st.executeUpdate(req);
-			st.executeUpdate("UPDATE tournois SET statut=2 WHERE id_tournoi=" + id_tournoi + ";");
+			st.executeUpdate("UPDATE tournois SET statut=2 WHERE id_tournoi=" + getId_tournoi() + ";");
 			this.statut = 2;
 		}catch(SQLException e){
 			System.out.println("Erreur validation �quipes : " + e.getMessage());
@@ -166,7 +176,7 @@ public class Tournoi {
 		if(getNbTours() >=  (getNbEquipes() -1) ) return false;
 		System.out.println("Eq:" + getNbEquipes() + "  tours" + getNbTours());
 		try {
-			ResultSet rs = st.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+id_tournoi+"; ");
+			ResultSet rs = st.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+getId_tournoi()+"; ");
 			rs.next();
 			nbtoursav = rs.getInt(1);
 			rs.close();
@@ -186,7 +196,7 @@ public class Tournoi {
 			String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
 			char v = ' ';
 			for(Match m:ms){
-				req += v + "(NULL," + id_tournoi + ", " + (nbtoursav + 1) + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
+				req += v + "(NULL," + getId_tournoi() + ", " + (nbtoursav + 1) + ", "+  m.eq1 + ", " +  m.eq2 + ", 'non')";
 				v = ',';
 			}
 			req += "\n";
@@ -202,7 +212,7 @@ public class Tournoi {
 				ResultSet rs;
 				//rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2 AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 AND m.id_tournoi = id_tournoi )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.id_tournoi + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
 	
-				rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.id_tournoi + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
+				rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + getId_tournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + getId_tournoi() + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
 
 				
 				ArrayList<Integer> ordreeq= new ArrayList<Integer>();
@@ -233,7 +243,7 @@ public class Tournoi {
 
 						}else{ 
 							fini = true;
-							req += v + "(NULL," + id_tournoi + ", " + (nbtoursav + 1) + ", "+  ordreeq.get(0) + ", " +  ordreeq.get(i) + ", 'non')";
+							req += v + "(NULL," + getId_tournoi() + ", " + (nbtoursav + 1) + ", "+  ordreeq.get(0) + ", " +  ordreeq.get(i) + ", 'non')";
 							System.out.println(ordreeq.get(0) + ", " +  ordreeq.get(i));
 							ordreeq.remove(0);
 							ordreeq.remove(i-1);
@@ -253,7 +263,7 @@ public class Tournoi {
 	public void supprimerTour(){
 		int nbtoursav;
 		try {
-			ResultSet rs = st.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+id_tournoi+"; ");
+			ResultSet rs = st.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+getId_tournoi()+"; ");
 			rs.next();
 			nbtoursav = rs.getInt(1);
 			rs.close();
@@ -265,7 +275,7 @@ public class Tournoi {
 		//if(tour != nbtoursav) return ;
 		
 		try {
-			st.executeUpdate("DELETE FROM matchs WHERE id_tournoi="+ id_tournoi+" AND num_tour=" + nbtoursav);
+			st.executeUpdate("DELETE FROM matchs WHERE id_tournoi="+ getId_tournoi()+" AND num_tour=" + nbtoursav);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Erreur del tour : " + e.getMessage());
@@ -354,7 +364,7 @@ public class Tournoi {
 			}
 		}
 		try {
-			st.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+a_aj+", "+id_tournoi + ",'\"Joueur 1\"', '\"Joueur 2\"');");
+			st.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+a_aj+", "+getId_tournoi() + ",'\"Joueur 1\"', '\"Joueur 2\"');");
 		    majEquipes();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -363,7 +373,7 @@ public class Tournoi {
 	}
 	public void majEquipe(int index){
 		try {
-			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).eq1) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).eq2) + "' WHERE id_equipe = " + getEquipe(index).id + ";";
+			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).getEq1()) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).getEq2()) + "' WHERE id_equipe = " + getEquipe(index).getId() + ";";
 			System.out.println(req);
 			st.executeUpdate(req);
 		    majEquipes();
@@ -377,9 +387,9 @@ public class Tournoi {
 
 	}
 	public void majMatch(int index){
-		String termine = (getMatch(index).score1 > 0 || getMatch(index).score2 > 0) ? "oui":"non";
+		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
 		System.out.println(termine);
-		String req="UPDATE matchs SET equipe1='" + getMatch(index).eq1 + "', equipe2='" + getMatch(index).eq2 + "',  score1='" + getMatch(index).score1 + "',  score2='" +getMatch(index).score2 + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).idmatch + ";";
+		String req="UPDATE matchs SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdmatch() + ";";
 		try {
 			st.executeUpdate(req);
 		} catch (SQLException e) {
@@ -395,8 +405,8 @@ public class Tournoi {
 			rs.next();
 			numeq = rs.getInt(1);
 			rs.close();
-			st.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + id_tournoi+ " AND id_equipe = " + ideq);
-			st.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + id_tournoi + " AND num_equipe > " + numeq);
+			st.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + getId_tournoi()+ " AND id_equipe = " + ideq);
+			st.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + getId_tournoi() + " AND num_equipe > " + numeq);
 		    majEquipes();
 		    
 		} catch (SQLException e) {
