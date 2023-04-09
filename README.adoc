@@ -108,6 +108,7 @@ Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa co
 Ce refactoring consiste à migrer mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application et les variables.
 
 Les bonnes pratiques sont::
+* Donner des noms descriptifs aux variables
 * Créer des getter et des setter pour chaque attribut
 * Mettre les attributs des classes en privé
 * Accéder à ces attributs par l'utilisation des getter et setter
