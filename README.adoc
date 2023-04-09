@@ -116,6 +116,21 @@ Les bonnes pratiques sont::
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
 
+=== Supprimer la classe Match
+
+==== Description
+
+Ce refactoring consiste à supprimer la classe Match dans les classes Tournoi et Belote.
+
+Le travail effectué::
+* Dans la classe Belote, la classe Match est complètement inutile, d'où sa suppression.
+* Dans la classe Tournoi, la classe Match est un duplicata de la classe MatchM présente dans un fichier à part. Elle n'a que pour utilité d'avoir un constructeur simplifié. Il a donc fallu déplacer se constructeur dans la classe MatchM.
+* Enfin, pour simplifier le code, nous avons rennomé la classe MatchM en Match. 
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/12[Supprimer classe interne Match : Tournoi et belote]
+
 == Contexte général
 
 TIP: Cette partie de votre `README.adoc` peut être supprimée ou mise ailleurs.
