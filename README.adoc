@@ -60,6 +60,7 @@ Projet est réalisé par::
 
 - https://github.com/L-Yvelin[Louis Yvelin]
 - https://github.com/Anxton[Anton Xu]
+- https://github.com/RepliKode[Vincent Miqueu-Denjean]
 
 == Livrables
 
