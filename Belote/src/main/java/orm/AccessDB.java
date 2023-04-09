@@ -5,15 +5,26 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
+
 import javax.swing.JOptionPane;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 
 public class AccessDB {
     
+    private static AccessDB instance = null;
+
     private Connection connection;
     private Statement statement;
+
+    public static AccessDB getInstance() {
+        if (instance == null) {
+            instance = new AccessDB();
+        }
+        return instance;
+    }
+
+    private AccessDB() { }
 
     public void initializeDatabase() {
         try {
@@ -39,8 +50,33 @@ public class AccessDB {
         } 
     }
 
-    private void importSQL(Connection connection, File sqlFile) throws SQLException, IOException {
-        // implémentation de la méthode importSQL
+    private void importSQL(Connection conn, File in) throws SQLException, IOException {
+        Scanner s = new Scanner(in);
+        s.useDelimiter("(;(\r)?\n)|(--\n)");
+        Statement st = null;
+        try
+        {
+            st = conn.createStatement();
+            while (s.hasNext())
+            {
+                String line = s.next();
+                if (line.startsWith("/*!") && line.endsWith("*/"))
+                {
+                    int i = line.indexOf(' ');
+                    line = line.substring(i + 1, line.length() - " */".length());
+                }
+                
+                if (line.trim().length() > 0)
+                {
+                    //System.out.println("Req:" + line);
+                    st.execute(line);
+                }
+            }
+        }
+        finally
+        {
+            if (st != null) st.close();
+        }
     }
 
     public Statement getStatement() {
