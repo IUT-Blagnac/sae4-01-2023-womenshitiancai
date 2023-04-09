@@ -373,7 +373,7 @@ public class Tournoi {
 	}
 	public void majEquipe(int index){
 		try {
-			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).eq1) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).eq2) + "' WHERE id_equipe = " + getEquipe(index).id + ";";
+			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).getEq1()) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).getEq2()) + "' WHERE id_equipe = " + getEquipe(index).getId() + ";";
 			System.out.println(req);
 			st.executeUpdate(req);
 		    majEquipes();
@@ -387,9 +387,9 @@ public class Tournoi {
 
 	}
 	public void majMatch(int index){
-		String termine = (getMatch(index).score1 > 0 || getMatch(index).score2 > 0) ? "oui":"non";
+		String termine = (getMatch(index).getScore1() > 0 || getMatch(index).getScore2() > 0) ? "oui":"non";
 		System.out.println(termine);
-		String req="UPDATE matchs SET equipe1='" + getMatch(index).eq1 + "', equipe2='" + getMatch(index).eq2 + "',  score1='" + getMatch(index).score1 + "',  score2='" +getMatch(index).score2 + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).idmatch + ";";
+		String req="UPDATE matchs SET equipe1='" + getMatch(index).getEq1() + "', equipe2='" + getMatch(index).getEq2() + "',  score1='" + getMatch(index).getScore1() + "',  score2='" +getMatch(index).getScore2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdmatch() + ";";
 		try {
 			st.executeUpdate(req);
 		} catch (SQLException e) {
