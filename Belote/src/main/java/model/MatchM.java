@@ -1,8 +1,14 @@
 package model;
 
 public class MatchM{
-	public int idmatch,eq1,eq2,score1,score2,num_tour;
-	public boolean termine;
+	private int idmatch;
+	private int eq1;
+	private int eq2;
+	private int score1;
+	private int score2;
+	private int num_tour;
+	private boolean termine;
+
 	
 	/**
 	* Constructeur du Match
@@ -30,4 +36,32 @@ public class MatchM{
 			return "  " + eq2 + " contre " + eq1;
 		}
 	}
+
+	public int getIdmatch() {return this.idmatch;}
+	
+	public void setIdmatch(int idmatch) {this.idmatch = idmatch;}
+	
+	public int getEq1() {return this.eq1;}
+	
+	public void setEq1(int eq1) {this.eq1 = eq1;}
+	
+	public int getEq2() {return this.eq2;}
+	
+	public void setEq2(int eq2) {this.eq2 = eq2;}
+	
+	public int getScore1() {return this.score1;}
+	
+	public void setScore1(int score1) {this.score1 = score1;}
+	
+	public int getScore2() {return this.score2;}
+	
+	public void setScore2(int score2) {this.score2 = score2;}
+	
+	public int getNum_tour() {return this.num_tour;}
+	
+	public void setNum_tour(int num_tour) {this.num_tour = num_tour;}
+	
+	public boolean isTermine() {return this.termine;}
+	
+	public void setTermine(boolean termine) {this.termine = termine;}
 }
