@@ -10,18 +10,32 @@ import javax.swing.JOptionPane;
 import model.Equipe;
 import model.Match;
 
+import orm.AccessTournoi;
+import orm.AccessEquipe;
+import orm.AccessMatch;
+
 public class Tournoi {
-	private String statutTournoi;
-	private String numeroTournoi;
+	static AccessTournoi requetesTournoi = new AccessTournoi();
+	AccessMatch requetesMatch = new AccessMatch();
+	AccessEquipe requestEquipe = new AccessEquipe();
+
+	private String statuttnom;
+	private String nt;
 	private int statut;
-	private int idTournoi;
+
+	
+
+	private int id_tournoi;
 
 	
 	//int    nbtours;
-	private Vector<Equipe> equipes = null;
-	private Vector<Match> matchs  = null;
-	private Vector<Integer>idsEquipe  = null; 
-	private Statement statement;
+	private Vector<Equipe> dataeq = null;
+	private Vector<Match> datam = null;
+	private Vector<Integer> ideqs = null;
+
+	
+	private Statement st;
+
 	
 	public int getIdTournoi() {
 		return this.idTournoi;
@@ -35,8 +49,8 @@ public class Tournoi {
 		statement = _statement;
 
 		try {
-			ResultSet resultat = _statement.executeQuery("SELECT * FROM tournois WHERE nom_tournoi = '" + Tournoi.mysql_real_escape_string(_numeroTournoi) + "';");
-			if(!resultat.next()){
+			ResultSet rs = requetesTournoi.getTournoisByName(Tournoi.mysql_real_escape_string(nt));
+			if(!rs.next()){
 				return ;
 			}
 			this.statut = resultat.getInt("statut");
@@ -74,15 +88,16 @@ public class Tournoi {
 		this.numeroTournoi = _numeroTournoi;
 		
 	}
-
+	
 	public void majEquipes(){
 		equipes = new Vector<Equipe>();
 		idsEquipe = new Vector<Integer>();
 		try {
-			ResultSet resultat = statement.executeQuery("SELECT * FROM equipes WHERE id_tournoi = " + getIdTournoi() + " ORDER BY num_equipe;");
-			while(resultat.next()){
-				equipes.add(new Equipe(resultat.getInt("id_equipe"),resultat.getInt("num_equipe"), resultat.getString("nom_j1"), resultat.getString("nom_j2")));
-				idsEquipe.add(resultat.getInt("num_equipe"));
+			ResultSet rs = requestEquipe.getEquipeByID(getId_tournoi(), "num_equipe");
+
+			while(rs.next()){
+				dataeq.add(new Equipe(rs.getInt("id_equipe"),rs.getInt("num_equipe"), rs.getString("nom_j1"), rs.getString("nom_j2")));
+				ideqs.add(rs.getInt("num_equipe"));
 			}
 			resultat.close();
 		} catch (SQLException e) {
@@ -93,8 +108,8 @@ public class Tournoi {
 	public void majMatch(){
 		matchs = new Vector<Match>();
 		try {
-			ResultSet rs= statement.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ getIdTournoi() + ";");
-			while(rs.next()) matchs.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
+			ResultSet rs = requetesTournoi.getTournoisByID(getId_tournoi());
+			while(rs.next()) datam.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
 			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
@@ -117,11 +132,39 @@ public class Tournoi {
 		
 	}
 	public int getNbEquipes(){
-		if(equipes == null) 
-			majEquipes();
-		return equipes.size();
+		if(dataeq == null) 
+		majEquipes();
+		return dataeq.size();
+	}
+
+	public Vector<Equipe> getDataeq() {
+		return this.dataeq;
+	}
+
+	public void setDataeq(Vector<Equipe> dataeq) {
+		this.dataeq = dataeq;
+	}
+
+	public Vector<Match> getDatam() {
+		return this.datam;
+	}
+
+	public void setDatam(Vector<Match> datam) {
+		this.datam = datam;
+	}
+
+	public Vector<Integer> getIdeqs() {
+		return this.ideqs;
+	}
+
+	public void setIdeqs(Vector<Integer> ideqs) {
+		this.ideqs = ideqs;
 	}
 	
+	public void setStatut(int statut) {
+		this.statut = statut;
+	}
+
 	public int    getStatut(){
 		return statut;
 	}
@@ -133,7 +176,7 @@ public class Tournoi {
 	}
 	public int getNbTours(){
 		try {
-			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+getIdTournoi()+"; ");
+			ResultSet rs = requetesTournoi.getTournoisDernierTour(id_tournoi);
 			rs.next();
 			return rs.getInt(1);
 		} catch (SQLException e) {
@@ -142,277 +185,43 @@ public class Tournoi {
 			return -1;
 		}
 	}
-	public void genererMatchs(){
-		int nbTours = 1;
 
-		System.out.println("Nombre d'�quipes : " + getNbEquipes());
-		System.out.println("Nombre de tours  : " + nbTours);
-		String request = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
-		Vector<Vector<Match>> listeListeMatchs;
-		listeListeMatchs = Tournoi.getMatchsToDo(getNbEquipes(), nbTours);
-		int iterateur = 1;
-		char separateur = ' ';
-		for(Vector<Match> listeMatchs :listeListeMatchs){
-			for(Match match:listeMatchs){
-				request += separateur + "(NULL," + getIdTournoi() + ", " + iterateur + ", "+  match.getIdEquipe1() + ", " +  match.getIdEquipe2() + ", 'non')";
-				separateur = ',';
-			}
-			request += "\n";
-			iterateur++;
-		}
-		System.out.println(request);
-		try{
-			statement.executeUpdate(request);
-			statement.executeUpdate("UPDATE tournois SET statut=2 WHERE id_tournoi=" + getIdTournoi() + ";");
-			this.statut = 2;
-		}catch(SQLException e){
-			System.out.println("Erreur validation �quipes : " + e.getMessage());
-		}
+	public void genererMatchs(){
+		requetesMatch.genererMatchs(this);
 	}
 	
 	public boolean ajouterTour(){
-		// Recherche du nombre de tours actuel
-		int nbtoursav;
-		if(getNbTours() >=  (getNbEquipes() -1) ) return false;
-		System.out.println("Eq:" + getNbEquipes() + "  tours" + getNbTours());
-		try {
-			ResultSet resultat = statement.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+getIdTournoi()+"; ");
-			resultat.next();
-			nbtoursav = resultat.getInt(1);
-			resultat.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-			return false;
-		}
-		System.out.println("Nombre de tours avant:" + nbtoursav);
-		
-		
-		if(nbtoursav == 0){
-			Vector<Match> listeMatchs;
-			
-			listeMatchs = Tournoi.getMatchsToDo(getNbEquipes(), nbtoursav+1).lastElement();
-			
-			String request = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
-			char separateur = ' ';
-			for(Match match:listeMatchs){
-				request += separateur + "(NULL," + getIdTournoi() + ", " + (nbtoursav + 1) + ", "+  match.getIdEquipe1() + ", " +  match.getIdEquipe2() + ", 'non')";
-				separateur = ',';
-			}
-			request += "\n";
-		
-			//System.out.println(req);
-			try{
-				statement.executeUpdate(request);
-			}catch(SQLException e){
-				System.out.println("Erreur ajout tour : " + e.getMessage());
-			}		
-		}else{
-			try {
-				ResultSet rs;
-				//rs = st.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2 AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 AND m.id_tournoi = id_tournoi )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.id_tournoi + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.id_tournoi + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
-	
-				rs = statement.executeQuery("SELECT equipe, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + getIdTournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + getIdTournoi() + ") GROUP BY equipe  ORDER BY matchs_gagnes DESC;");
-
-				
-				ArrayList<Integer> ordreeq= new ArrayList<Integer>();
-				while(rs.next()){
-					ordreeq.add(rs.getInt("equipe"));
-					System.out.println(rs.getInt(1) +" _ " + rs.getString(2));
-				}
-				System.out.println("Taille"+ordreeq.size());
-				int i;
-				boolean fini;
-				String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
-				char separateur = ' ';
-				while(ordreeq.size() > 1){
-					System.out.println("Taille " + ordreeq.size());
-					int j=0;
-					while(j<ordreeq.size()) {
-						System.out.println(ordreeq.get(j));
-						j++;
-					}
-					i=1;
-					do{
-						rs = statement.executeQuery("SELECT COUNT(*) FROM matchs m WHERE ( (m.equipe1 = " + ordreeq.get(0) + " AND m.equipe2 = " + ordreeq.get(i) + ") OR (m.equipe2 = " + ordreeq.get(0) + " AND m.equipe1 = " + ordreeq.get(i) + ")  )");  
-						rs.next();
-						if(rs.getInt(1) > 0){
-							// Le match est d�j� jou�
-							i++;
-							fini = false;
-
-						}else{ 
-							fini = true;
-							req += separateur + "(NULL," + getIdTournoi() + ", " + (nbtoursav + 1) + ", "+  ordreeq.get(0) + ", " +  ordreeq.get(i) + ", 'non')";
-							System.out.println(ordreeq.get(0) + ", " +  ordreeq.get(i));
-							ordreeq.remove(0);
-							ordreeq.remove(i-1);
-							separateur = ',';
-						}
-					}while(!fini);
-				}
-				System.out.println(req);
-				statement.executeUpdate(req);
-			} catch (SQLException e) {
-				
-				e.printStackTrace();
-			}
-		}
-		return true;
+		return requetesMatch.ajouterTour(this);
 	}
+
 	public void supprimerTour(){
-		int nbtoursav;
-		try {
-			ResultSet rs = statement.executeQuery("SELECT MAX (num_tour)  FROM matchs WHERE id_tournoi="+getIdTournoi()+"; ");
-			rs.next();
-			nbtoursav = rs.getInt(1);
-			rs.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-			return ;
-		}
-		//if(tour != nbtoursav) return ;
-		
-		try {
-			statement.executeUpdate("DELETE FROM matchs WHERE id_tournoi="+ getIdTournoi()+" AND num_tour=" + nbtoursav);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur del tour : " + e.getMessage());
-		}
+		requetesMatch.supprimerTour(this);
 	}
 		
-	public static int deleteTournoi(Statement _statement, String nomtournoi){
-		try {
-			int idTournoi;
-			ResultSet rs = _statement.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + mysql_real_escape_string(nomtournoi) + "';");
-			rs.next();
-			idTournoi = rs.getInt(1);
-			rs.close();
-			System.out.println("ID du tournoi � supprimer:" + idTournoi);
-			_statement.executeUpdate("DELETE FROM matchs   WHERE id_tournoi = " + idTournoi);
-			_statement.executeUpdate("DELETE FROM equipes  WHERE id_tournoi = " + idTournoi);
-			_statement.executeUpdate("DELETE FROM tournois WHERE id_tournoi = " + idTournoi);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur suppression" + e.getMessage());
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur inconnue");
-		} 
-		return 0;
+	public static int deleteTournoi(Statement s2, String nomtournoi){
+		return requetesTournoi.deleteTournoi(s2, nomtournoi);
 	}
-	public static int creerTournoi(Statement _statement){
-		String s = (String)JOptionPane.showInputDialog(
-                null,
-                "Entrez le nom du tournoi",
-                "Nom du tournoi",
-                JOptionPane.PLAIN_MESSAGE);
-		
-		
-		if(s == null || s == ""){
-			return 1;
-		}else{
-			try {
-				s =  mysql_real_escape_string(s);
-				if(s.length() < 3){
-					JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Nom trop court.");
-					return 2;					
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(s == ""){
-				JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Ne pas mettre de caract�res sp�ciaux ou accents dans le nom");
-				return 2;
-			}else{
-				
-				
-				ResultSet rs;
-				try {
-					rs = _statement.executeQuery("SELECT id_tournoi FROM tournois WHERE nom_tournoi = '" + s + "';");
-					if(rs.next()){
-						JOptionPane.showMessageDialog(null, "Le tournoi n'a pas �t� cr��. Un tournoi du m�me nom existe d�j�");
-						return 2;							
-					}
-	
-					System.out.println("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+s+"', 0)");
-				_statement.executeUpdate("INSERT INTO tournois (id_tournoi, nb_matchs, nom_tournoi, statut) VALUES (NULL, 10, '"+s+"', 0)");
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					System.out.println("Erreur requete insertion nouveau tournoi:" + e.getMessage());
-					
-					//e.printStackTrace();
-					
-					
-				}
-				//s2.executeUpdate("INSERT INTO tournois (id")
-				
-			}
-		}
-		return 0;
+
+	public static int creerTournoi(Statement s2){
+		return requetesTournoi.creerTournoi(s2); //很好🥚
 	}
 	
 	public void ajouterEquipe(){
-		int idNouvelleEquipe= this.equipes.size()+1;
-		for ( int i=1;i <= this.equipes.size(); i++){
-			if(!idsEquipe.contains(i)){
-				idNouvelleEquipe=i;
-				break;
-			}
-		}
-		try {
-			statement.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+idNouvelleEquipe+", "+getIdTournoi() + ",'\"Joueur 1\"', '\"Joueur 2\"');");
-		    majEquipes();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		requestEquipe.ajouterEquipe(this);
 	}
-	public void majEquipe(int index){
-		try {
-			String req = "UPDATE equipes SET nom_j1 = '" + mysql_real_escape_string(getEquipe(index).getNomEquipe1()) + "', nom_j2 = '" + mysql_real_escape_string(getEquipe(index).getNomEquipe2()) + "' WHERE id_equipe = " + getEquipe(index).getIdEquipe() + ";";
-			System.out.println(req);
-			statement.executeUpdate(req);
-		    majEquipes();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
+	public void majEquipe(int index){
+		requestEquipe.majEquipe(this, index);
 	}
+
 	public void majMatch(int index){
-		String termine = (getMatch(index).getScoreEquipe1() > 0 || getMatch(index).getScoreEquipe2() > 0) ? "oui":"non";
-		System.out.println(termine);
-		String req="UPDATE matchs SET equipe1='" + getMatch(index).getIdEquipe1() + "', equipe2='" + getMatch(index).getIdEquipe2() + "',  score1='" + getMatch(index).getScoreEquipe1() + "',  score2='" +getMatch(index).getScoreEquipe2() + "', termine='" + termine + "' WHERE id_match = " + getMatch(index).getIdMatch() + ";";
-		try {
-			statement.executeUpdate(req);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		majMatch();
+		requetesMatch.majMatch(this, index);
 	}
+
 	public void supprimerEquipe(int ideq){
-		try {
-			int numEquipe;
-			ResultSet rs = statement.executeQuery("SELECT num_equipe FROM equipes WHERE id_equipe = " + ideq);
-			rs.next();
-			numEquipe = rs.getInt(1);
-			rs.close();
-			statement.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + getIdTournoi()+ " AND id_equipe = " + ideq);
-			statement.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + getIdTournoi() + " AND num_equipe > " + numEquipe);
-		    majEquipes();
-		    
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}		
+		requestEquipe.supprimerEquipe(this, ideq);
 	}
+
     public static String mysql_real_escape_string( String str) 
             throws Exception
       {
