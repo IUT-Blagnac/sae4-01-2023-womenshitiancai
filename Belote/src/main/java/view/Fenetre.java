@@ -214,28 +214,8 @@ public class Fenetre extends JFrame {
 
 		int nbdeLignes = 0;
 		noms_tournois = new Vector<String>();
-       this.setStatutSelect("sélection d'un tournoi");
-		ResultSet rs;
-		try {
-			rs = s.executeQuery("SELECT * FROM tournois;");
-
-			while( rs.next() ){
-				nbdeLignes++;
-				noms_tournois.add(rs.getString("nom_tournoi"));
-			}
-			
-			if( nbdeLignes == 0){
-				//System.out.println("Pas de résultats");
-				//t.add(new JLabel("Aucun tournoi n'a �t� cr��"));
-			}else{
-				//System.out.println(nbdeLignes + " r�sultats");
-				
-			}
-			rs.close();
-		} catch (SQLException e) {
-			System.out.println("Erreur lors de la requète :" + e.getMessage());
-			e.printStackTrace();
-		}
+        this.setStatutSelect("sélection d'un tournoi");
+		
 		
 		if(tournois_trace){
 			list.setListData(noms_tournois);
