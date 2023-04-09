@@ -113,9 +113,10 @@ Les bonnes pratiques sont::
 * Accéder à ces attributs par l'utilisation des getter et setter
 * Renommer toutes les variables en leur donnant plus de sens et en suivant la nomenclature camelCase.
 
-==== Issue associée
+==== Issues associées
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs]
 
 === Supprimer la classe Match
 
