@@ -10,7 +10,11 @@ import javax.swing.JOptionPane;
 import model.Equipe;
 import model.Match;
 
+import orm.AccessDB;
+
 public class Tournoi {
+	AccessDB appelsBD = new AccessDB();
+
 	private String statuttnom;
 	private String nt;
 	private int statut;
@@ -35,7 +39,8 @@ public class Tournoi {
 		st = s;
 
 		try {
-			ResultSet rs = s.executeQuery("SELECT * FROM tournois WHERE nom_tournoi = '" + Tournoi.mysql_real_escape_string(nt) + "';");
+
+			ResultSet rs = appelsBD.getTournoisByName(Tournoi.mysql_real_escape_string(nt));
 			if(!rs.next()){
 				return ;
 			}
@@ -93,7 +98,7 @@ public class Tournoi {
 	public void majMatch(){
 		datam = new Vector<Match>();
 		try {
-			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ getId_tournoi() + ";");
+			ResultSet rs= appelsBD.getTournoisByID(getId_tournoi());
 			while(rs.next()) datam.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
 			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
