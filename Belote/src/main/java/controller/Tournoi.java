@@ -11,7 +11,7 @@ import model.Equipe;
 import model.Match;
 
 public class Tournoi {
-	private String statuttnom;
+	private String statutTournoi;
 	private String numeroTournoi;
 	private int statut;
 	private int idTournoi;
@@ -52,22 +52,22 @@ public class Tournoi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		statuttnom = "Inconnu";
+		statutTournoi = "Inconnu";
 		switch(this.statut){
 		//case 0:
 		//	statuttnom = "Configuration du tournoi";
 		//break;
 		case 0:
-			statuttnom = "Inscription des joueurs";
+			statutTournoi = "Inscription des joueurs";
 		break;
 		case 1:
-			statuttnom = "Génération des matchs";
+			statutTournoi = "Génération des matchs";
 		break;
 		case 2:
-			statuttnom = "Matchs en cours";
+			statutTournoi = "Matchs en cours";
 		break;
 		case 3:
-			statuttnom = "Terminé";
+			statutTournoi = "Terminé";
 		break;
 			
 		}
@@ -126,7 +126,7 @@ public class Tournoi {
 		return statut;
 	}
 	public String getNStatut(){
-		return statuttnom;
+		return statutTournoi;
 	}
 	public String getNom() {
 		return numeroTournoi;
