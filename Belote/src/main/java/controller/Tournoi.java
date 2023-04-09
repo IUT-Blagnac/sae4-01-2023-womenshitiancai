@@ -11,9 +11,9 @@ import model.Equipe;
 import model.MatchM;
 
 public class Tournoi {
-	private String statuttnom;
-	private String nt;
-	private int statut;
+	String statuttnom;
+	String nt;
+	int    statut;
 	private int id_tournoi;
 
 	
@@ -21,7 +21,7 @@ public class Tournoi {
 	private Vector<Equipe> dataeq = null;
 	private Vector<MatchM> datam  = null;
 	private Vector<Integer>ideqs  = null; 
-	private Statement st;
+	Statement st;
 	
 	public int getId_tournoi() {
 		return this.id_tournoi;
