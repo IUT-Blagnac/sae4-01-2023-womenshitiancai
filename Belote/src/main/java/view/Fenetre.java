@@ -39,8 +39,8 @@ public class Fenetre extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JPanel c;
-	private Statement s;
+	public JPanel c;
+	Statement s;
 	
 	private JTextArea gt;
 	private JPanel ListeTournois;
@@ -65,13 +65,13 @@ public class Fenetre extends JFrame {
 	private boolean resultats_trace = false;
 	
 	private CardLayout fen;
-    private final static String DETAIL   = "Paramètres du tournoi";
-	private final static String TOURNOIS = "Tournois";
-    private final static String EQUIPES  = "Equipes";
-    private final static String TOURS    = "Tours";
-    private final static String MATCHS   = "Matchs";
-    private final static String RESULTATS= "Resultats";
-    private Tournoi t = null;
+	final static String TOURNOIS = "Tournois";
+    final static String DETAIL   = "Paramètres du tournoi";
+    final static String EQUIPES  = "Equipes";
+    final static String TOURS    = "Tours";
+    final static String MATCHS   = "Matchs";
+    final static String RESULTATS= "Resultats";
+    public Tournoi t = null;
     
     private JLabel statut_slect = null;
     private final String statut_deft = "Gestion de tournois de Belote v1.0 - ";
