@@ -101,6 +101,21 @@ Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa co
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/2[Migrer sous Maven #2]
 
+=== Bonnes pratiques de codage des attributs
+
+==== Description
+
+Ce refactoring consiste à migrer mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application.
+
+Les bonnes pratiques sont::
+* Créer des getter et des setter pour chaque attribut
+* Mettre les attributs des classes en privé
+* Accéder à ces attributs par l'utilisation des getter et setter
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
+
 == Contexte général
 
 TIP: Cette partie de votre `README.adoc` peut être supprimée ou mise ailleurs.
