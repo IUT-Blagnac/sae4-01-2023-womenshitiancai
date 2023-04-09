@@ -1,6 +1,10 @@
 package model;
 
 public 	class Equipe{
+	private int id;
+	private int num;
+	private String eq1;
+	private String eq2;
 	/**
 	 * Constructeur d'une équipe
 	 * @param _id identifiant unique de l'équipe
@@ -14,8 +18,4 @@ public 	class Equipe{
 		eq1 = _eq1;
 		eq2 = _eq2;
 	}
-	public int id;
-	public int num;
-	public String eq1;
-	public String eq2;
 }
