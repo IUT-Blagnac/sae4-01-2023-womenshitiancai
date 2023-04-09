@@ -105,16 +105,34 @@ Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa co
 
 ==== Description
 
-Ce refactoring consiste à migrer mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application.
+Ce refactoring consiste à migrer mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application et les variables.
 
 Les bonnes pratiques sont::
+* Donner des noms descriptifs aux variables
 * Créer des getter et des setter pour chaque attribut
 * Mettre les attributs des classes en privé
 * Accéder à ces attributs par l'utilisation des getter et setter
+* Renommer toutes les variables en leur donnant plus de sens et en suivant la nomenclature camelCase.
+
+==== Issues associées
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
+
+=== Supprimer la classe Match
+
+==== Description
+
+Ce refactoring consiste à supprimer la classe Match dans les classes Tournoi et Belote.
+
+Le travail effectué::
+* Dans la classe Belote, la classe Match est complètement inutile, d'où sa suppression.
+* Dans la classe Tournoi, la classe Match est un duplicata de la classe MatchM présente dans un fichier à part. Elle a pour unique but d'avoir un constructeur simplifié. Il a donc fallu déplacer ce constructeur dans la classe MatchM.
+* Enfin, pour simplifier le code, nous avons rennomé la classe MatchM en Match. 
 
 ==== Issue associée
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/12[Supprimer classe interne Match : Tournoi et belote]
 
 == Contexte général
 

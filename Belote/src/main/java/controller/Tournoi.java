@@ -35,28 +35,28 @@ public class Tournoi {
 
 	
 	private Statement st;
+
 	
-	public int getId_tournoi() {
-		return this.id_tournoi;
+	public int getIdTournoi() {
+		return this.idTournoi;
 	}
 
-	public void setId_tournoi(int _id_tournoi) {
-		this.id_tournoi = _id_tournoi;
+	public void setIdTournoi(int _idTournoi) {
+		this.idTournoi = _idTournoi;
 	}
 
-	public Tournoi(String nt, Statement s){
-		st = s;
+	public Tournoi(String _numeroTournoi, Statement _statement){
+		statement = _statement;
 
 		try {
-
 			ResultSet rs = requetesTournoi.getTournoisByName(Tournoi.mysql_real_escape_string(nt));
 			if(!rs.next()){
 				return ;
 			}
-			this.statut = rs.getInt("statut");
+			this.statut = resultat.getInt("statut");
 			
-			setId_tournoi(rs.getInt("id_tournoi"));
-			rs.close();
+			setIdTournoi(resultat.getInt("id_tournoi"));
+			resultat.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -66,32 +66,32 @@ public class Tournoi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		statuttnom = "Inconnu";
+		statutTournoi = "Inconnu";
 		switch(this.statut){
 		//case 0:
 		//	statuttnom = "Configuration du tournoi";
 		//break;
 		case 0:
-			statuttnom = "Inscription des joueurs";
+			statutTournoi = "Inscription des joueurs";
 		break;
 		case 1:
-			statuttnom = "Génération des matchs";
+			statutTournoi = "Génération des matchs";
 		break;
 		case 2:
-			statuttnom = "Matchs en cours";
+			statutTournoi = "Matchs en cours";
 		break;
 		case 3:
-			statuttnom = "Terminé";
+			statutTournoi = "Terminé";
 		break;
 			
 		}
-		this.nt = nt;
+		this.numeroTournoi = _numeroTournoi;
 		
 	}
 	
 	public void majEquipes(){
-		dataeq = new Vector<Equipe>();
-		ideqs = new Vector<Integer>();
+		equipes = new Vector<Equipe>();
+		idsEquipe = new Vector<Integer>();
 		try {
 			ResultSet rs = requestEquipe.getEquipeByID(getId_tournoi(), "num_equipe");
 
@@ -99,14 +99,14 @@ public class Tournoi {
 				dataeq.add(new Equipe(rs.getInt("id_equipe"),rs.getInt("num_equipe"), rs.getString("nom_j1"), rs.getString("nom_j2")));
 				ideqs.add(rs.getInt("num_equipe"));
 			}
-			rs.close();
+			resultat.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 		}
 	}
 	public void majMatch(){
-		datam = new Vector<Match>();
+		matchs = new Vector<Match>();
 		try {
 			ResultSet rs = requetesTournoi.getTournoisByID(getId_tournoi());
 			while(rs.next()) datam.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
@@ -118,17 +118,17 @@ public class Tournoi {
 		}
 	}
 	public Match getMatch(int index){
-		if(datam == null) majMatch();
-		return datam.get(index);
+		if(matchs == null) majMatch();
+		return matchs.get(index);
 	}
 	public int getNbMatchs(){
-		if(datam == null) majMatch();
-		return datam.size();
+		if(matchs == null) majMatch();
+		return matchs.size();
 	}
 	public Equipe getEquipe(int index){
-		if(dataeq == null) 
+		if(equipes == null) 
 			majEquipes();
-		return dataeq.get(index);
+		return equipes.get(index);
 		
 	}
 	public int getNbEquipes(){
@@ -169,10 +169,10 @@ public class Tournoi {
 		return statut;
 	}
 	public String getNStatut(){
-		return statuttnom;
+		return statutTournoi;
 	}
 	public String getNom() {
-		return nt;
+		return numeroTournoi;
 	}
 	public int getNbTours(){
 		try {
@@ -233,13 +233,13 @@ public class Tournoi {
               return str;
           }
               
-          String clean_string = str;
-          clean_string = clean_string.replaceAll("\\n","\\\\n");
-          clean_string = clean_string.replaceAll("\\r", "\\\\r");
-          clean_string = clean_string.replaceAll("\\t", "\\\\t");
-          clean_string = clean_string.replaceAll("\\00", "\\\\0");
-          clean_string = clean_string.replaceAll("'", "''");
-          return clean_string;
+          String cleanString = str;
+          cleanString = cleanString.replaceAll("\\n","\\\\n");
+          cleanString = cleanString.replaceAll("\\r", "\\\\r");
+          cleanString = cleanString.replaceAll("\\t", "\\\\t");
+          cleanString = cleanString.replaceAll("\\00", "\\\\0");
+          cleanString = cleanString.replaceAll("'", "''");
+          return cleanString;
 
       }
     
@@ -266,11 +266,11 @@ public class Tournoi {
 		}
 		
 		boolean quitter;
-		int     i, increment  = 1, temp;
+		int i, increment = 1, temp;
 
 		Vector<Vector<Match>> retour = new Vector<Vector<Match>>();
 		
-		Vector<Match> vm;
+		Vector<Match> vecteurMatchs;
 		
 		for( int r = 1; r <= nbTours;r++){
 			if(r > 1){
@@ -280,14 +280,14 @@ public class Tournoi {
 				}
 				tabJoueurs[0] = temp;
 			}
-			i       = 0;
+			i = 0;
 			quitter = false;
-			vm = new Vector<Match>();
+			vecteurMatchs = new Vector<Match>();
 			while(!quitter){
 				if (tabJoueurs[i] == -1 || tabJoueurs[nbJoueurs - 1  - i] == -1){
 					// Nombre impair de joueur, le joueur n'a pas d'adversaire
 				}else{
-					vm.add(new Match(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
+					vecteurMatchs.add(new Match(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
 				}
 
 		        i+= increment;
@@ -307,7 +307,7 @@ public class Tournoi {
 					}
 				}
 			}
-			retour.add(vm);
+			retour.add(vecteurMatchs);
 		}
 		return retour;
 	}

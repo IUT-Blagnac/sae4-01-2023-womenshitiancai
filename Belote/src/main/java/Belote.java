@@ -5,7 +5,7 @@ import orm.AccessDB;
 import view.Fenetre;
 
 
-public class Belote {    
+public class Belote {
     
     public static void main(String[] args) throws SQLException {
         AccessDB access = AccessDB.getInstance();
