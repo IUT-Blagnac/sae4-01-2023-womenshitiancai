@@ -1,38 +1,38 @@
 package model;
 
 public 	class Equipe{
-	private int id;
-	private int num;
-	private String eq1;
-	private String eq2;
+	private int idEquipe;
+	private int numEquipe;
+	private String nomEquipe1;
+	private String nomEquipe2;
 	
 	/**
 	 * Constructeur d'une équipe
-	 * @param _id identifiant unique de l'équipe
-	 * @param _num numéro d'affichage de l'équipe
-	 * @param _eq1 équipier 1
-	 * @param _eq2 équipier 2
+	 * @param _idEquipe identifiant unique de l'équipe
+	 * @param _numEquipe numéro d'affichage de l'équipe
+	 * @param _nomEquipe1 équipier 1
+	 * @param _nomEquipe2 équipier 2
 	 */
-	public Equipe( int _id, int _num, String _eq1, String _eq2){
-		id = _id;
-		num = _num;
-		eq1 = _eq1;
-		eq2 = _eq2;
+	public Equipe( int _idEquipe, int _numEquipe, String _nomEquipe1, String _nomEquipe2){
+		idEquipe = _idEquipe;
+		numEquipe = _numEquipe;
+		nomEquipe1 = _nomEquipe1;
+		nomEquipe2 = _nomEquipe2;
 	}
 	
-		public int getId() {return this.id;}
+		public int getIdEquipe() {return this.idEquipe;}
 	
-		public void setId(int id) {this.id = id;}
+		public void setIdEquipe(int idEquipe) {this.idEquipe = idEquipe;}
 	
-		public int getNum() {return this.num;}
+		public int getNumEquipe() {return this.numEquipe;}
 	
-		public void setNum(int num) {this.num = num;}
+		public void setNumEquipe(int numEquipe) {this.numEquipe = numEquipe;}
 	
-		public String getEq1() {return this.eq1;}
+		public String getNomEquipe1() {return this.nomEquipe1;}
 	
-		public void setEq1(String eq1) {this.eq1 = eq1;}
+		public void setNomEquipe1(String nomEquipe1) {this.nomEquipe1 = nomEquipe1;}
 	
-		public String getEq2() {return this.eq2;}
+		public String getNomEquipe2() {return this.nomEquipe2;}
 	
-		public void setEq2(String eq2) {this.eq2 = eq2;}
+		public void setNomEquipe2(String nomEquipe2) {this.nomEquipe2 = nomEquipe2;}
 }
