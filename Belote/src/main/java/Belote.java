@@ -9,6 +9,9 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.hsqldb.DatabaseManager;
+
+import orm.AccessDB;
 import view.Fenetre;
 
 
@@ -16,44 +19,50 @@ public class Belote {
     
     public static void main(String[] args) throws SQLException {
         
-        Connection connection = null;  
-        Statement statement = null;  		
+    //     Connection connection = null;  
+    //     Statement statement = null;  		
         
-        // Connection � la base de donn�es
-        // et cr�ation des champs 
+    //     // Connection � la base de donn�es
+    //     // et cr�ation des champs 
         
-        try {  
-            Class.forName("org.hsqldb.jdbcDriver").newInstance();
+    //     try {  
+    //         Class.forName("org.hsqldb.jdbcDriver").newInstance();
             
-            String dos = System.getProperty("user.dir")+ "\\src\\resources";
-            System.out.println("Dossier de stockage: " + dos);
-            if( !new File(dos).isDirectory() ){
-                new File(dos).mkdir();
-            }
-            connection = DriverManager.getConnection("jdbc:hsqldb:file:" + dos + "\\bd","sa","");  
-            statement = connection.createStatement();  
+    //         String dos = System.getProperty("user.dir")+ "\\src\\resources";
+    //         System.out.println("Dossier de stockage: " + dos);
+    //         if( !new File(dos).isDirectory() ){
+    //             new File(dos).mkdir();
+    //         }
+    //         connection = DriverManager.getConnection("jdbc:hsqldb:file:" + dos + "\\bd","sa","");  
+    //         statement = connection.createStatement();  
             
-            importSQL(connection, new File(dos+"\\create.sql"));
+    //         importSQL(connection, new File(dos+"\\create.sql"));
             
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
-            System.out.println(e.getMessage());
-            System.exit(0);
-        }catch (Exception e) {  
-            JOptionPane.showMessageDialog(null, "Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'acc�s sur le dossier AppData.");
-            System.out.println(e.getMessage());
-            System.exit(0);
-        } 
+    //     }catch(SQLException e){
+    //         JOptionPane.showMessageDialog(null, "Impossible de se connecter à la base de donn�e. Vérifier qu'une autre instance du logiciel n'est pas déjà ouverte.");
+    //         System.out.println(e.getMessage());
+    //         System.exit(0);
+    //     }catch (Exception e) {  
+    //         JOptionPane.showMessageDialog(null, "Erreur lors de l'initialisation du logiciel. Vérifiez votre installation Java et vos droits d'acc�s sur le dossier AppData.");
+    //         System.out.println(e.getMessage());
+    //         System.exit(0);
+    //     } 
         
-        // Interface graphique
+    //     // Interface graphique
         
-        Fenetre f = new Fenetre(statement);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //     Fenetre f = new Fenetre(statement);
+    //     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        //statement.execute("SHUTDOWN;");
-        //statement.close();  
-        //connection.close();  		
+    //     //statement.execute("SHUTDOWN;");
+    //     //statement.close();  
+    //     //connection.close();  		
+    // }
+        AccessDB AccessDB = new AccessDB();
+        AccessDB.initializeDatabase();
+    Fenetre f = new Fenetre(AccessDB.getStatement());
+    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
     
     
     public static void importSQL(Connection conn, File in) throws SQLException, FileNotFoundException
