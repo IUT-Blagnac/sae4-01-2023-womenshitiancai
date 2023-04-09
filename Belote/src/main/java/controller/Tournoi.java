@@ -8,7 +8,7 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import model.Equipe;
-import model.MatchM;
+import model.Match;
 
 public class Tournoi {
 	private String statuttnom;
@@ -19,7 +19,7 @@ public class Tournoi {
 	
 	//int    nbtours;
 	private Vector<Equipe> dataeq = null;
-	private Vector<MatchM> datam  = null;
+	private Vector<Match> datam  = null;
 	private Vector<Integer>ideqs  = null; 
 	private Statement st;
 	
@@ -91,10 +91,10 @@ public class Tournoi {
 		}
 	}
 	public void majMatch(){
-		datam = new Vector<MatchM>();
+		datam = new Vector<Match>();
 		try {
 			ResultSet rs= st.executeQuery("SELECT * FROM matchs WHERE id_tournoi="+ getId_tournoi() + ";");
-			while(rs.next()) datam.add(new MatchM(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
+			while(rs.next()) datam.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
 			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
@@ -102,7 +102,7 @@ public class Tournoi {
 			System.out.println(e.getMessage());
 		}
 	}
-	public MatchM getMatch(int index){
+	public Match getMatch(int index){
 		if(datam == null) majMatch();
 		return datam.get(index);
 	}
@@ -148,12 +148,12 @@ public class Tournoi {
 		System.out.println("Nombre d'�quipes : " + getNbEquipes());
 		System.out.println("Nombre de tours  : " + nbt);
 		String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
-		Vector<Vector<MatchM>> ms;
+		Vector<Vector<Match>> ms;
 		ms = Tournoi.getMatchsToDo(getNbEquipes(), nbt);
 		int z = 1;
 		char v = ' ';
-		for(Vector<MatchM> t :ms){
-			for(MatchM m:t){
+		for(Vector<Match> t :ms){
+			for(Match m:t){
 				req += v + "(NULL," + getId_tournoi() + ", " + z + ", "+  m.getEq1() + ", " +  m.getEq2() + ", 'non')";
 				v = ',';
 			}
@@ -189,13 +189,13 @@ public class Tournoi {
 		
 		
 		if(nbtoursav == 0){
-			Vector<MatchM> ms;
+			Vector<Match> ms;
 			
 			ms = Tournoi.getMatchsToDo(getNbEquipes(), nbtoursav+1).lastElement();
 			
 			String req = "INSERT INTO matchs ( id_match, id_tournoi, num_tour, equipe1, equipe2, termine ) VALUES\n";
 			char v = ' ';
-			for(MatchM m:ms){
+			for(Match m:ms){
 				req += v + "(NULL," + getId_tournoi() + ", " + (nbtoursav + 1) + ", "+  m.getEq1() + ", " +  m.getEq2() + ", 'non')";
 				v = ',';
 			}
@@ -434,7 +434,7 @@ public class Tournoi {
 
       }
     
-	public static Vector<Vector<MatchM>> getMatchsToDo(int nbJoueurs, int nbTours){
+	public static Vector<Vector<Match>> getMatchsToDo(int nbJoueurs, int nbTours){
 		if( nbTours  >= nbJoueurs){
 			System.out.println("Erreur tours < equipes");
 			return null;
@@ -459,9 +459,9 @@ public class Tournoi {
 		boolean quitter;
 		int     i, increment  = 1, temp;
 
-		Vector<Vector<MatchM>> retour = new Vector<Vector<MatchM>>();
+		Vector<Vector<Match>> retour = new Vector<Vector<Match>>();
 		
-		Vector<MatchM> vm;
+		Vector<Match> vm;
 		
 		for( int r = 1; r <= nbTours;r++){
 			if(r > 1){
@@ -473,12 +473,12 @@ public class Tournoi {
 			}
 			i       = 0;
 			quitter = false;
-			vm = new Vector<MatchM>();
+			vm = new Vector<Match>();
 			while(!quitter){
 				if (tabJoueurs[i] == -1 || tabJoueurs[nbJoueurs - 1  - i] == -1){
 					// Nombre impair de joueur, le joueur n'a pas d'adversaire
 				}else{
-					vm.add(new MatchM(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
+					vm.add(new Match(tabJoueurs[i], tabJoueurs[nbJoueurs - 1  - i]));
 				}
 
 		        i+= increment;
