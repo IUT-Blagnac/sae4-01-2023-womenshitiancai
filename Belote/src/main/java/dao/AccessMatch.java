@@ -1,4 +1,4 @@
-package orm;
+package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import controller.Tournoi;
+import dao.AccessDB;
 import model.Match;
-import orm.AccessDB;
-
 import utils.fenetreErreur;
 
 public class AccessMatch {

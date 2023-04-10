@@ -1,7 +1,8 @@
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
-import orm.AccessDB;
+
+import dao.AccessDB;
 import view.Fenetre;
 
 
