@@ -251,16 +251,10 @@ public class Fenetre extends JFrame {
 			detailt_nbtours = new JLabel(Integer.toString(t.getNbTours()));
 			tab.add(new JLabel("Nombre de tours:"));
 			tab.add(detailt_nbtours);
-			//detailt_nbtours.setPreferredSize(new Dimension(40,40));
 
 			p.add(tab);
 			
-			//detailt_enregistrer = new JButton("Enregistrer");
-			//p.add(Box.createHorizontalGlue());
-			//p.add(detailt_enregistrer);
 			p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-			//p.add(new JLabel("  e"));
-			//tab.setPreferredSize(new Dimension(-1, 200));
 			
 
 		}
