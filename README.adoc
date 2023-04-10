@@ -135,7 +135,7 @@ Les bonnes pratiques sont::
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[setter/getter, attributs privés #4]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
+ * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
 
 === Supprimer la classe Match
 
@@ -170,6 +170,16 @@ Le travail effectué::
 ==== Issue associée
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[Package dao #9]
+
+=== Séparation de la classe Fenetre en différentes classes
+
+==== Description
+
+L'objectif est de réduire la complexité de la classe Fenetre en respectant le principe SOLID ou chaque classe a une responsabilité afin de structurer la partie view de l'application.
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (tournoiPane) #15]
 
 == Contexte général
 
