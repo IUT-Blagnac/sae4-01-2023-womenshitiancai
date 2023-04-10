@@ -23,7 +23,10 @@ import javax.swing.ListSelectionModel;
 
 import controller.Tournoi;
 
+import dao.AccessTournoi;
+
 public class TournoisPane extends JPanel{
+	AccessTournoi requestTournoi = new AccessTournoi();
 	JList<String> list;
 	
 	JButton creerTournoi;
@@ -134,7 +137,7 @@ public class TournoisPane extends JPanel{
 			nbdeLignes = 0;
 			noms_tournois.clear();
 
-			rs = s.executeQuery("SELECT * FROM tournois;");
+			rs = requestTournoi.getAllTournois();
 
 			while( rs.next() ){
 				nbdeLignes++;

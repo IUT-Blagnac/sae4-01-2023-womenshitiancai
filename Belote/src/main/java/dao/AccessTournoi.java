@@ -14,6 +14,16 @@ public class AccessTournoi {
     AccessDB connection = AccessDB.getInstance();
     
     private Statement statement = connection.getStatement();
+
+	public ResultSet getAllTournois(){
+        try {
+            return this.statement.executeQuery("SELECT * FROM tournois ;");
+        } catch (SQLException e) {
+            alert.alertConnectionBD();
+            e.printStackTrace();
+        }
+        return null;
+    }
     
     public ResultSet getTournoisByName(String name){
         try {
