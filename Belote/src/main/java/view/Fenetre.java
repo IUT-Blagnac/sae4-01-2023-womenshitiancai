@@ -212,7 +212,7 @@ public class Fenetre extends JFrame {
 		    tournois_trace = true;
 			tournoisPane = new TournoisPane(s, this);
 			c.add(tournoisPane,TOURNOIS);
-			tournoisPane.updateUI();
+			tournoisPane.updateUI(); // IMPORTANT !
 	        fen.show(c, TOURNOIS);
 		}
 	}
