@@ -3,7 +3,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 
 import dao.AccessDB;
-import view.Fenetre;
+import view.MainFrame;
 
 
 public class Belote {    
@@ -11,7 +11,7 @@ public class Belote {
     public static void main(String[] args) throws SQLException {
         AccessDB access = AccessDB.getInstance();
         access.initializeDatabase();
-        Fenetre f = new Fenetre(access.getStatement());
+        MainFrame f = new MainFrame(access.getStatement());
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

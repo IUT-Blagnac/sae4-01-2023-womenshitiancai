@@ -25,7 +25,7 @@ import controller.Tournoi;
 
 import dao.AccessTournoi;
 
-public class TournoisPane extends JPanel{
+public class TournoisPanel extends JPanel{
 	AccessTournoi requestTournoi = AccessTournoi.getInstance();
 	JList<String> list;
 	
@@ -39,7 +39,7 @@ public class TournoisPane extends JPanel{
 
 	Statement s;
 
-    public TournoisPane(Statement s, Fenetre f) {
+    public TournoisPanel(Statement s, MainFrame f) {
 		super();
 
         this.s = s;
@@ -122,7 +122,7 @@ public class TournoisPane extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String nt = list.getSelectedValue();
-				f.setT(new Tournoi(nt, s));
+				f.setTournoi(new Tournoi(nt, s));
 				//Fenetre.this.detracer_select_tournoi();
 				f.tracer_details_tournoi();
 				f.setStatutSelect("Tournoi \" " + nt + " \"");
