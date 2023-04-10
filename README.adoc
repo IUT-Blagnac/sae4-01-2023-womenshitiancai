@@ -165,7 +165,7 @@ De cette manière, nous créons une interface accessible par le reste de l'appli
 Le travail effectué::
 * Création des classes AccessDB, AccessTournoi, AccessEquipe, AccessMatch
 * Classe Belote : Utilisation de AccessDB pour initialiser la connexion à la base de données
-* Il est à noter que la classe AccessDB est un singleton pour s'assurer qu'il n'y ait qu'une seule connexion à la base de données
+* Il est à noter que les classes du package `dao` sont des singleton pour s'assurer qu'il n'y ait qu'une seule connexion à la base de données
 * Remplacer toutes les requêtes exécutées à la volée par des appels de méthodes appartenant aux classes DAO
 
 ==== Issue associée
@@ -173,6 +173,8 @@ Le travail effectué::
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[AccessDB, AccessTournoi, AccessEquipe, AccessMatch #9]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/25[rename package dao #25]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/29[Implementer AccessTournois pour les requêtes de Fenetre #29]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/30[rendre singleton les classes dao #30]
+
 
 === Séparation de la classe Fenetre en différentes classes [Anton XU]
 

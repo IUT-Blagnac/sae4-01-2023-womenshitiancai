@@ -8,6 +8,14 @@ import dao.AccessDB;
 import utils.FenetreErreur;
 
 public class AccessEquipe {
+
+	private static AccessEquipe instance = null;
+	private AccessEquipe(){}
+	public static AccessEquipe getInstance(){
+		if (instance == null) instance = new AccessEquipe();
+		return instance;
+	}
+
     FenetreErreur alert = new FenetreErreur();
     AccessDB connection = AccessDB.getInstance();
     

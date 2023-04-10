@@ -26,7 +26,7 @@ import controller.Tournoi;
 import dao.AccessTournoi;
 
 public class TournoisPane extends JPanel{
-	AccessTournoi requestTournoi = new AccessTournoi();
+	AccessTournoi requestTournoi = AccessTournoi.getInstance();
 	JList<String> list;
 	
 	JButton creerTournoi;

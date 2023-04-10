@@ -14,9 +14,9 @@ import model.Equipe;
 import model.Match;
 
 public class Tournoi {
-	static AccessTournoi requetesTournoi = new AccessTournoi();
-	AccessMatch requetesMatch = new AccessMatch();
-	AccessEquipe requestEquipe = new AccessEquipe();
+	static AccessTournoi requetesTournoi = AccessTournoi.getInstance();
+	AccessMatch requetesMatch = AccessMatch.getInstance();
+	AccessEquipe requestEquipe = AccessEquipe.getInstance();
 
 	private String StatutTournoi;
 	private String numeroTournoi;

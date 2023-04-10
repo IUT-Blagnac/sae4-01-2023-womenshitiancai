@@ -10,6 +10,14 @@ import dao.AccessDB;
 import utils.FenetreErreur;
 
 public class AccessTournoi {
+
+	private static AccessTournoi instance = null;
+	private AccessTournoi(){}
+	public static AccessTournoi getInstance(){
+		if (instance == null) instance = new AccessTournoi();
+		return instance;
+	}
+
     FenetreErreur alert = new FenetreErreur();
     AccessDB connection = AccessDB.getInstance();
     
