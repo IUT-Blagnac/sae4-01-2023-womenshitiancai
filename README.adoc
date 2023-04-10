@@ -60,7 +60,7 @@ Projet est réalisé par::
 
 - https://github.com/L-Yvelin[Louis Yvelin]
 - https://github.com/Anxton[Anton Xu]
-- https://github.com/RepliKode[Vincent Miqueu-Denjean]
+- https://github.com/RepliKode[Vincent Miqueu-Denjean] (a rejoint à la fin du projet)
 
 == Livrables
 
@@ -68,7 +68,7 @@ Projet est réalisé par::
 
 == Refactoring
 
-=== Structuration en packages (MVC) [Anton XU]
+=== Structuration en packages (MVC) [Anton XU, Louis YVELIN]
 
 ==== Description
 
@@ -112,7 +112,13 @@ Ce refactoring est très important à réaliser afin de poursuivre le refactorin
 ==== Issues associées
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (tournoiPane) #15]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[AccessDB, AccessTournoi, AccessEquipe, AccessMatch #9]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (TournoisPanel) #15]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/33[Diviser classe Fenetre (DetailsPanel) #33]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/34[Diviser classe Fenetre (EquipesPanel) #34]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/35[Diviser classe Fenetre (ToursPanel) #35]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/36[Diviser classe Fenetre (MatchsPanel) #36]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/37[Diviser classe Fenetre (ResultsPanel) #37]
 
 === Migration sous Maven [Anton XU]
 
@@ -127,7 +133,7 @@ Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa co
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/2[Migrer sous Maven #2]
 
-=== Bonnes pratiques de codage des attributs [Louis YVELIN]
+=== Bonnes pratiques de codage des attributs [Louis YVELIN, Anton XU]
 
 ==== Description
 
@@ -190,7 +196,7 @@ Le travail effectué::
 
 ==== Description
 
-L'objectif est de réduire la complexité de la classe Fenetre en respectant le principe SOLID ou chaque classe a une responsabilité afin de structurer la partie view de l'application.
+L'objectif est de réduire la complexité de la classe Fenetre en respectant le principe SOLID où chaque classe a une seule responsabilité afin de structurer la partie view de l'application et la rendre extensible.
 
 Nous gardons la fenêtre principale (renommée `MainFrame`) qui gère des sous-vues qui sont initiées dans leur propre classe.
 
