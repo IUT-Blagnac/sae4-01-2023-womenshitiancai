@@ -76,29 +76,38 @@ Ce refactoring consiste à structurer l'application afin de séparer les respons
 
 Ce refactoring est très important à réaliser afin de poursuivre le refactoring. En effet, les différents paquetages (qui évolueront au fil du refactoring) permettent d'avoir une vision globale de la séparation des fonctions présentes dans chaque classe.
 
-Première séparation::
+.Première séparation
+* `Belote`
 * model
-** Equipe
-** MatchM
+** `Equipe`
+** `MatchM`
 * view
-** Fenetre
+** `Fenetre`
 * controller
-** Tournoi
+** `Tournoi`
 
-Architecture de l'application finale::
+.Architecture de l'application finale
+* `Belote`
 * model
-** Equipe
-** Match
+** `Equipe`
+** `Match`
 * view
-** Fenetre
-** TournoisPane
+** `MainFrame`
+** `TournoisPanel`
+** `DetailsPanel`
+** `EquipesPanel` 
+** `ToursPanel` 
+** `MatchsPanel` 
+** `ResultsPanel`
 * controller
-** Tournoi
+** `Tournoi`
+* utils
+** `FenetreErreur`
 * dao
-** AccessDB
-** AccessTournoi
-** AccessEquipe
-** AccessMatch
+** `AccessDB`
+** `AccessTournoi`
+** `AccessEquipe`
+** `AccessMatch`
 
 ==== Issues associées
 
@@ -122,7 +131,7 @@ Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa co
 
 ==== Description
 
-Ce refactoring consiste à migrer mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application et les variables.
+Ce refactoring consiste à mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application et les variables.
 
 Les bonnes pratiques sont::
 * Donner des noms descriptifs aux variables
@@ -136,6 +145,7 @@ Les bonnes pratiques sont::
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[setter/getter, attributs privés #4]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/33[Diviser classe Fenetre (DetailsPanel) #33]
 
 === Supprimer la classe Match [Louis YVELIN]
 
@@ -182,9 +192,28 @@ Le travail effectué::
 
 L'objectif est de réduire la complexité de la classe Fenetre en respectant le principe SOLID ou chaque classe a une responsabilité afin de structurer la partie view de l'application.
 
-==== Issue associée
+Nous gardons la fenêtre principale (renommée `MainFrame`) qui gère des sous-vues qui sont initiées dans leur propre classe.
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (TournoisPane) #15]
+Ces sous-vues sont des classes qui héritent de JPanel.
+
+Fenêtre principale::
+* `MainFrame`
+Sous-vues::
+* `TournoisPanel` +
+* `DetailsPanel` +
+* `EquipesPanel` +
+* `ToursPanel` +
+* `MatchsPanel` +
+* `ResultsPanel`
+
+==== Issues associées
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (TournoisPanel) #15]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/33[Diviser classe Fenetre (DetailsPanel) #33]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/34[Diviser classe Fenetre (EquipesPanel) #34]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/35[Diviser classe Fenetre (ToursPanel) #35]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/36[Diviser classe Fenetre (MatchsPanel) #36]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/37[Diviser classe Fenetre (ResultsPanel) #37]
 
 == Contexte général
 
