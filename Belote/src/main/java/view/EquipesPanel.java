@@ -151,7 +151,6 @@ public class EquipesPanel extends JPanel{
 		
     }
     public void refresh() {
-        f.getTournoi().majEquipes();
         eq_modele.fireTableDataChanged();
     }
 
