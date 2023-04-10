@@ -25,7 +25,7 @@ public class EquipesPanel extends JPanel{
     private JScrollPane        eq_js;
     private JTable             eq_jt;
 
-    public EquipesPanel(MainFrame f, JPanel centerPanel) {
+    public EquipesPanel(MainFrame f) {
 		super();
 
         this.f = f;
@@ -34,7 +34,7 @@ public class EquipesPanel extends JPanel{
         this.add(new JLabel("Equipes du tournoi"));
         this.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
 
-        centerPanel.add(this, MainFrame.EQUIPES);
+        f.getCenterPanel().add(this, MainFrame.EQUIPES);
 
         eq_modele = new AbstractTableModel() {
             

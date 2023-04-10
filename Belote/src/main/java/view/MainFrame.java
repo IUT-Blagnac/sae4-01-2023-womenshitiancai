@@ -33,6 +33,7 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public JPanel centerPanel;
+
 	private Statement statement;
 
 	private TournoisPanel tournoisPanel;
@@ -244,7 +245,7 @@ public class MainFrame extends JFrame {
 			equipesPanel.refresh();
 		} else {
 			equipes_trace = true;
-			equipesPanel = new EquipesPanel(this, centerPanel);
+			equipesPanel = new EquipesPanel(this);
 			
 			equipesPanel.refresh();
 		}
@@ -253,15 +254,6 @@ public class MainFrame extends JFrame {
 		fen.show(centerPanel, EQUIPES);
 	}
 
-	private JTable                     tours_t;
-	private JScrollPane                tours_js;
-	private JPanel                     tours_p;
-	private BoxLayout                  tours_layout;
-	private JLabel                     tours_desc;
-	
-	private JButton                    tours_ajouter;
-	private JButton                    tours_supprimer;
-	private JButton                    tours_rentrer;
 	
 	public void tracer_tours_tournoi(){
 		
@@ -270,84 +262,13 @@ public class MainFrame extends JFrame {
 			return ;
 		}
 		majboutons();
-		Vector< Vector<Object>> to =new Vector<Vector<Object>>();
-		Vector<Object> v;
-		boolean peutajouter = true;
-		try {
-			ResultSet rs = statement.executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournoi.getIdTournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
-			while(rs.next()){
-				v = new Vector<Object>();
-				v.add(rs.getInt("num_tour"));
-				v.add(rs.getInt("tmatchs"));
-				v.add(rs.getString("termines"));
-				to.add(v);
-				peutajouter = peutajouter && rs.getInt("tmatchs") == rs.getInt("termines");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("Numéro du tour");
-		columnNames.add("Nombre de matchs");
-		columnNames.add("Matchs joués");
-		tours_t = new JTable(to,columnNames );
+		
 		if(tours_trace){
-			tours_js.setViewportView(tours_t);
+			toursPanel.refresh();
 		}else{
 			tours_trace  = true;
-			tours_p      = new JPanel();
-			tours_layout = new BoxLayout( tours_p, BoxLayout.Y_AXIS);
-			tours_p.setLayout( tours_layout);
-			tours_desc = new JLabel("Tours");
-			tours_p.add(tours_desc);
-			tours_p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-			centerPanel.add(tours_p, TOURS);
+			toursPanel = new ToursPanel(this);
 
-
-			
-			tours_js = new JScrollPane();
-			tours_js.setViewportView(tours_t);
-			tours_p.add(tours_js);
-			
-			JPanel bt    = new JPanel();
-			tours_ajouter   = new JButton("Ajouter un tour");
-			tours_supprimer = new JButton("Supprimer le dernier tour");
-			//tours_rentrer   = new JButton("Rentrer les scores du tour s�lectionn�");
-			bt.add(tours_ajouter);
-			bt.add(tours_supprimer);
-			//bt.add(tours_rentrer);
-			tours_p.add(bt);	
-			tours_p.add(new JLabel("Pour pouvoir ajouter un tour, terminez tous les matchs du précédent."));
-			tours_p.add(new JLabel("Le nombre maximum de tours est \"le nombre total d'équipes - 1\""));
-			tours_ajouter.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					tournoi.ajouterTour();
-					MainFrame.this.tracer_tours_tournoi();								
-				}
-			});
-			tours_supprimer.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					tournoi.supprimerTour();
-					MainFrame.this.tracer_tours_tournoi();				
-				}
-			});
-		}
-		if(to.size() == 0){
-			tours_supprimer.setEnabled(false);
-			tours_ajouter.setEnabled(true);
-		}else{
-			
-			tours_supprimer.setEnabled( tournoi.getNbTours() > 1);
-			
-			if(!peutajouter || tournoi.getNbTours()  >= tournoi.getNbEquipes()-1 ){
-				tours_ajouter.setEnabled(false);
-			}else
-				tours_ajouter.setEnabled(true);
 		}
 
 		fen.show(centerPanel, TOURS);
@@ -585,5 +506,9 @@ public class MainFrame extends JFrame {
 	}
 	public void setTournoi(Tournoi tournoi) {
 		this.tournoi = tournoi;
+	}
+	
+	public JPanel getCenterPanel() {
+		return centerPanel;
 	}
 }
