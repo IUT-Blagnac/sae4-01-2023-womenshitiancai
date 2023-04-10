@@ -184,7 +184,7 @@ L'objectif est de réduire la complexité de la classe Fenetre en respectant le 
 
 ==== Issue associée
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (tournoiPane) #15]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (TournoisPane) #15]
 
 == Contexte général
 
