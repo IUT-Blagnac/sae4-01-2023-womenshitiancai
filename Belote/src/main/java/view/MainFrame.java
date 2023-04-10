@@ -272,18 +272,7 @@ public class MainFrame extends JFrame {
 		}
 
 		fen.show(centerPanel, TOURS);
-		//tours_ajouter.setEnabled(peutajouter);
 	}
-
-	private AbstractTableModel match_modele;
-    private JScrollPane        match_js;
-    private JTable                     match_jt;
-    private JPanel                     match_p;
-    private BoxLayout                  match_layout;
-    private JLabel                     match_desc;
-    private JPanel                     match_bas;
-    private JLabel                     match_statut;
-    private JButton                    match_valider;
 
 	public void tracer_tournoi_matchs(){
 		if(tournoi == null){
@@ -292,120 +281,10 @@ public class MainFrame extends JFrame {
 		majboutons();
 		if(match_trace){
 			tournoi.majMatch();
-			match_modele.fireTableDataChanged();
-			majStatutM();
+			matchsPanel.refresh();
 		}else{
 			match_trace = true;
-			match_p      = new JPanel();
-			match_layout = new BoxLayout(match_p, BoxLayout.Y_AXIS);
-			match_p.setLayout(match_layout);
-			match_desc = new JLabel("Matchs du tournoi");
-			match_p.add(match_desc);
-			match_p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-			centerPanel.add(match_p, MATCHS );
-	
-			match_modele = new AbstractTableModel() {
-				private static final long serialVersionUID = 1L;
-				@Override
-				public Object getValueAt(int arg0, int arg1) {
-					Object r=null;
-					switch(arg1){
-					case 0:
-						r= tournoi.getMatch(arg0).getNumTour();
-					break;
-					case 1:
-						r= tournoi.getMatch(arg0).getIdEquipe1();
-					break;
-					case 2:
-						r= tournoi.getMatch(arg0).getIdEquipe2();
-					break;
-					case 3:
-						r= tournoi.getMatch(arg0).getScoreEquipe1();
-					break;
-					case 4:
-						r= tournoi.getMatch(arg0).getScoreEquipe2();
-					break;
-					}
-					return r;
-		
-				}
-				public String getColumnName(int col) {
-				        if(col == 0){
-				        	return "Tour";
-				        }else if(col == 1){
-				        	return "Équipe 1";
-				        }else if(col == 2){
-				        	return "Équipe 2";
-				        }else if(col == 3){
-				        	return "Score équipe 1";
-				        }else if(col == 4){
-				        	return "Score équipe 2";
-				        }else{
-				        	return "??";
-				        }
-				 }
-				@Override
-				public int getRowCount() {
-					// TODO Auto-generated method stub
-					if(tournoi == null)return 0;
-					return tournoi.getNbMatchs();
-				}
-				
-				@Override
-				public int getColumnCount() {
-					// TODO Auto-generated method stub
-					return 5;
-				}
-				public boolean isCellEditable(int x, int y){
-					return y > 2 && tournoi.getMatch(x).getNumTour() == tournoi.getNbTours();
-				}
-				public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-					Match m = tournoi.getMatch(rowIndex);
-					if( columnIndex == 0){
-						
-					}else if( columnIndex == 3){
-						try{
-							int sco = Integer.parseInt((String)aValue);
-							m.setScoreEquipe1(sco);
-							tournoi.majMatch(rowIndex);
-							
-						}catch(Exception e){
-							return ;
-						}
-						
-					}else if( columnIndex == 4){
-						try{
-							int sco = Integer.parseInt((String)aValue);
-							m.setScoreEquipe2(sco);
-							tournoi.majMatch(rowIndex);
-							
-						}catch(Exception e){
-							return ;
-						}
-					}
-
-					fireTableDataChanged();
-					MainFrame.this.majStatutM();
-					MainFrame.this.majboutons();
-				}
-			};
-			match_jt = new JTable(match_modele);
-
-			match_js = new JScrollPane(match_jt);
-			match_p.add(match_js);
-			//jt.setPreferredSize(getMaximumSize());
-
-			System.out.println("truc2");
-			
-			match_bas = new JPanel();
-			match_bas.add(match_statut = new JLabel("?? Matchs joués"));
-			match_bas.add(match_valider = new JButton("Afficher les résultats"));
-			match_valider.setEnabled(false);
-			
-			match_p.add(match_bas);
-			majStatutM();
-
-			
+			matchsPanel = new MatchsPanel(this);
 		}
 
 		fen.show(centerPanel, MATCHS);
@@ -485,7 +364,7 @@ public class MainFrame extends JFrame {
 		
 	}
 	
-	private void majStatutM(){
+	void majStatutM(JLabel match_statut, JButton match_valider){
 		int total=-1, termines=-1;
 		try {
 			ResultSet rs = statement.executeQuery("Select count(*) as total, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + this.tournoi.getIdTournoi() +" GROUP by id_tournoi ;");
