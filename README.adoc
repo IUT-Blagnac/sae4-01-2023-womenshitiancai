@@ -76,6 +76,7 @@ Ce refactoring consiste à structurer l'application afin de séparer les respons
 
 Ce refactoring est très important à réaliser afin de poursuivre le refactoring. En effet, les différents paquetages (qui évolueront au fil du refactoring) permettent d'avoir une vision globale de la séparation des fonctions présentes dans chaque classe.
 
+Première séparation::
 * model
 ** Equipe
 ** MatchM
@@ -84,9 +85,25 @@ Ce refactoring est très important à réaliser afin de poursuivre le refactorin
 * controller
 ** Tournoi
 
-==== Issue associée
+Architecture de l'application finale::
+* model
+** Equipe
+** Match
+* view
+** Fenetre
+** TournoisPane
+* controller
+** Tournoi
+* dao
+** AccessDB
+** AccessTournoi
+** AccessEquipe
+** AccessMatch
+
+==== Issues associées
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (tournoiPane) #15]
 
 === Migration sous Maven 
 
@@ -105,16 +122,65 @@ Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa co
 
 ==== Description
 
-Ce refactoring consiste à migrer mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application.
+Ce refactoring consiste à migrer mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application et les variables.
 
 Les bonnes pratiques sont::
+* Donner des noms descriptifs aux variables
 * Créer des getter et des setter pour chaque attribut
 * Mettre les attributs des classes en privé
 * Accéder à ces attributs par l'utilisation des getter et setter
+* Renommer toutes les variables en leur donnant plus de sens et en suivant la nomenclature camelCase.
+
+==== Issues associées
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
+
+=== Supprimer la classe Match
+
+==== Description
+
+Ce refactoring consiste à supprimer la classe Match dans les classes Tournoi et Belote.
+
+Ces classes internes sont utilisées en plus de la classe model, ce qui est redondant.
+
+Le travail effectué::
+* Dans la classe Belote, la classe Match est complètement inutile, d'où sa suppression.
+* Dans la classe Tournoi, la classe Match est un duplicata de la classe MatchM présente dans un fichier à part. Elle a pour unique but d'avoir un constructeur simplifié. Il a donc fallu déplacer ce constructeur dans la classe MatchM.
+* Enfin, pour simplifier le code, nous avons renommé la classe MatchM en Match.
 
 ==== Issue associée
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/12[Supprimer classe interne Match : Tournoi et belote #12]
+
+=== Créer des classes d'accès à la base de données (DAO)
+
+==== Description
+
+Ce refactoring consiste à créer un package `dao` dont l'objectif est de rassembler les classes d'accès à la base de données.
+
+De cette manière, nous créons une interface accessible par le reste de l'application, dont l'objectif unique est la connexion à la base de données.
+
+Le travail effectué::
+* Création des classes AccessDB, AccessTournoi, AccessEquipe, AccessMatch
+* Classe Belote : Utilisation de AccessDB pour initialiser la connexion à la base de données
+* Il est à noter que la classe AccessDB est un singleton pour s'assurer qu'il n'y ait qu'une seule connexion à la base de données
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[Package dao #9]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/25[rename package dao #25]
+
+=== Séparation de la classe Fenetre en différentes classes
+
+==== Description
+
+L'objectif est de réduire la complexité de la classe Fenetre en respectant le principe SOLID ou chaque classe a une responsabilité afin de structurer la partie view de l'application.
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (tournoiPane) #15]
 
 == Contexte général
 
