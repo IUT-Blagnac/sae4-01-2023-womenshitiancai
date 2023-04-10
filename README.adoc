@@ -169,7 +169,7 @@ Le travail effectué::
 
 ==== Issue associée
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[Package dao #9]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[AccessDB, AccessTournoi, AccessEquipe, AccessMatch #9]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/25[rename package dao #25]
 
 === Séparation de la classe Fenetre en différentes classes [Anton XU]
