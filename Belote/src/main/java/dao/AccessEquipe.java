@@ -1,11 +1,10 @@
-package orm;
+package dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import controller.Tournoi;
-import orm.AccessDB;
-
+import dao.AccessDB;
 import utils.fenetreErreur;
 
 public class AccessEquipe {

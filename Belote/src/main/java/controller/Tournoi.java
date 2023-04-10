@@ -7,12 +7,11 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 
+import dao.AccessEquipe;
+import dao.AccessMatch;
+import dao.AccessTournoi;
 import model.Equipe;
 import model.Match;
-
-import orm.AccessTournoi;
-import orm.AccessEquipe;
-import orm.AccessMatch;
 
 public class Tournoi {
 	static AccessTournoi requetesTournoi = new AccessTournoi();
