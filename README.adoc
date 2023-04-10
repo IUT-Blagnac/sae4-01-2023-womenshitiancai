@@ -194,7 +194,7 @@ L'objectif est de réduire la complexité de la classe Fenetre en respectant le 
 
 Nous gardons la fenêtre principale (renommée `MainFrame`) qui gère des sous-vues qui sont initiées dans leur propre classe.
 
-Ces sous-vues sont des classes qui héritent de JPanel.
+Ces sous-vues sont des classes qui héritent de JPanel, on utilise le pattern Observer afin de notifier aux vues qu'il faut mettre à jour leur affichage.
 
 Fenêtre principale::
 * `MainFrame`
