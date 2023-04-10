@@ -11,6 +11,14 @@ import model.Match;
 import utils.FenetreErreur;
 
 public class AccessMatch {
+
+	private static AccessMatch instance = null;
+	private AccessMatch(){}
+	public static AccessMatch getInstance(){
+		if (instance == null) instance = new AccessMatch();
+		return instance;
+	}
+
     FenetreErreur alert = new FenetreErreur();
     AccessDB connection = AccessDB.getInstance();
 
