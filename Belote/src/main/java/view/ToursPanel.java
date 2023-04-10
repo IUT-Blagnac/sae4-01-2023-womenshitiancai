@@ -36,7 +36,7 @@ public class ToursPanel extends JPanel{
     public void before() {
       to = new Vector<Vector<Object>>();
       Vector<Object> v;
-      boolean peutajouter = true;
+      peutajouter = true;
       try {
         
         ResultSet rs = AccessDB.getInstance().getStatement().executeQuery("Select num_tour,count(*) as tmatchs, (Select count(*) from matchs m2  WHERE m2.id_tournoi = m.id_tournoi  AND m2.num_tour=m.num_tour  AND m2.termine='oui' ) as termines from matchs m  WHERE m.id_tournoi=" + f.getTournoi().getIdTournoi() + " GROUP BY m.num_tour,m.id_tournoi;");
@@ -112,17 +112,17 @@ public class ToursPanel extends JPanel{
 
     public void after() {
       
-		if(to.size() == 0){
-			tours_supprimer.setEnabled(false);
-			tours_ajouter.setEnabled(true);
-		}else{
-			
-			tours_supprimer.setEnabled( f.getTournoi().getNbTours() > 1);
-			
-			if(!peutajouter || f.getTournoi().getNbTours()  >= f.getTournoi().getNbEquipes()-1 ){
-				tours_ajouter.setEnabled(false);
-			}else
-				tours_ajouter.setEnabled(true);
-		}
+      if(to.size() == 0){
+        tours_supprimer.setEnabled(false);
+        tours_ajouter.setEnabled(true);
+      }else{
+        
+        tours_supprimer.setEnabled( f.getTournoi().getNbTours() > 1);
+        
+        if(!peutajouter || f.getTournoi().getNbTours()  >= f.getTournoi().getNbEquipes()-1 ){
+          tours_ajouter.setEnabled(false);
+        }else
+          tours_ajouter.setEnabled(true);
+      }
     }
 }
