@@ -133,9 +133,9 @@ Les bonnes pratiques sont::
 
 ==== Issues associées
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[setter/getter, attributs privés #4]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
- * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
 
 === Supprimer la classe Match
 
@@ -158,7 +158,7 @@ Le travail effectué::
 
 ==== Description
 
-Ce refactoring consiste à créer un package dao dont l'objectif est de rassembler les classes d'accès à la base de données.
+Ce refactoring consiste à créer un package `dao` dont l'objectif est de rassembler les classes d'accès à la base de données.
 
 De cette manière, nous créons une interface accessible par le reste de l'application, dont l'objectif unique est la connexion à la base de données.
 
