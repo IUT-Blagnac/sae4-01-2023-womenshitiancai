@@ -2,7 +2,7 @@ package utils;
 
 import javax.swing.JOptionPane;
 
-public class fenetreErreur {
+public class FenetreErreur {
     public void alert(String s) {
         JOptionPane.showMessageDialog(null, s);
     }

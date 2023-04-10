@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
 
 import controller.Tournoi;
 import dao.AccessDB;
-import utils.fenetreErreur;
+import utils.FenetreErreur;
 
 public class AccessTournoi {
-    fenetreErreur alert = new fenetreErreur();
+    FenetreErreur alert = new FenetreErreur();
     AccessDB connection = AccessDB.getInstance();
     
     private Statement statement = connection.getStatement();

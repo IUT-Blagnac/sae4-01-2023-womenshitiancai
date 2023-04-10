@@ -5,10 +5,10 @@ import java.sql.Statement;
 
 import controller.Tournoi;
 import dao.AccessDB;
-import utils.fenetreErreur;
+import utils.FenetreErreur;
 
 public class AccessEquipe {
-    fenetreErreur alert = new fenetreErreur();
+    FenetreErreur alert = new FenetreErreur();
     AccessDB connection = AccessDB.getInstance();
     
     private Statement statement = connection.getStatement();

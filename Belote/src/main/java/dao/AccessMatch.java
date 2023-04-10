@@ -8,10 +8,10 @@ import java.util.Vector;
 import controller.Tournoi;
 import dao.AccessDB;
 import model.Match;
-import utils.fenetreErreur;
+import utils.FenetreErreur;
 
 public class AccessMatch {
-    fenetreErreur alert = new fenetreErreur();
+    FenetreErreur alert = new FenetreErreur();
     AccessDB connection = AccessDB.getInstance();
 
     private Statement statement = connection.getStatement();
