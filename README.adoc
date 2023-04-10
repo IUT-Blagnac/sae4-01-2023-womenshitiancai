@@ -76,6 +76,7 @@ Ce refactoring consiste à structurer l'application afin de séparer les respons
 
 Ce refactoring est très important à réaliser afin de poursuivre le refactoring. En effet, les différents paquetages (qui évolueront au fil du refactoring) permettent d'avoir une vision globale de la séparation des fonctions présentes dans chaque classe.
 
+Première séparation::
 * model
 ** Equipe
 ** MatchM
@@ -84,9 +85,25 @@ Ce refactoring est très important à réaliser afin de poursuivre le refactorin
 * controller
 ** Tournoi
 
-==== Issue associée
+Architecture de l'application finale::
+* model
+** Equipe
+** Match
+* view
+** Fenetre
+** TournoisPane
+* controller
+** Tournoi
+* dao
+** AccessDB
+** AccessTournoi
+** AccessEquipe
+** AccessMatch
+
+==== Issues associées
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (tournoiPane) #15]
 
 === Migration sous Maven 
 
@@ -116,9 +133,8 @@ Les bonnes pratiques sont::
 
 ==== Issues associées
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[variables explicites, setter/getter, attributs privés #4]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
 
 === Supprimer la classe Match
 
@@ -126,14 +142,16 @@ Les bonnes pratiques sont::
 
 Ce refactoring consiste à supprimer la classe Match dans les classes Tournoi et Belote.
 
+Ces classes internes sont utilisées en plus de la classe model, ce qui est redondant.
+
 Le travail effectué::
 * Dans la classe Belote, la classe Match est complètement inutile, d'où sa suppression.
 * Dans la classe Tournoi, la classe Match est un duplicata de la classe MatchM présente dans un fichier à part. Elle a pour unique but d'avoir un constructeur simplifié. Il a donc fallu déplacer ce constructeur dans la classe MatchM.
-* Enfin, pour simplifier le code, nous avons rennomé la classe MatchM en Match. 
+* Enfin, pour simplifier le code, nous avons renommé la classe MatchM en Match.
 
 ==== Issue associée
 
-* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/12[Supprimer classe interne Match : Tournoi et belote #12]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/12[Supprimer classe interne Match : Tournoi et belote]
 
 === Créer des classes d'accès à la base de données (DAO)
 
