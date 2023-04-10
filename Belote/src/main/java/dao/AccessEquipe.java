@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import controller.Tournoi;
-import dao.AccessDB;
 import utils.FenetreErreur;
 
 public class AccessEquipe {

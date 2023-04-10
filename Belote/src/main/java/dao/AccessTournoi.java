@@ -6,7 +6,6 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 import controller.Tournoi;
-import dao.AccessDB;
 import utils.FenetreErreur;
 
 public class AccessTournoi {

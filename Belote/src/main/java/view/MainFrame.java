@@ -9,20 +9,11 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
-
 import controller.Tournoi;
-import model.Match;
 
 
 
@@ -257,19 +248,20 @@ public class MainFrame extends JFrame {
 	
 	public void tracer_tours_tournoi(){
 		
-		
 		if(tournoi == null){
 			return ;
 		}
 		majboutons();
 		
 		if(tours_trace){
+			toursPanel.before();
 			toursPanel.refresh();
 		}else{
-			tours_trace  = true;
+			tours_trace = true;
 			toursPanel = new ToursPanel(this);
 
 		}
+		toursPanel.after();
 
 		fen.show(centerPanel, TOURS);
 	}
@@ -291,73 +283,17 @@ public class MainFrame extends JFrame {
 		
 	}
 	
-    private JScrollPane        resultats_js;
-    private JTable                     resultats_jt;
-    private JPanel                     resultats_p;
-    private BoxLayout                  resultats_layout;
-    private JLabel                     resultats_desc;
-    private JPanel                     resultats_bas;
-    private JLabel                     resultats_statut;
-
 
 	public void tracer_tournoi_resultats(){
 		if(tournoi == null){
 			return ;
 		}
-		
-		Vector< Vector<Object>> to =new Vector<Vector<Object>>();
-		Vector<Object> v;		
-		try {
-			ResultSet rs = statement.executeQuery("SELECT equipe,(SELECT nom_j1 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournoi.getIdTournoi() + ") as joueur1,(SELECT nom_j2 FROM equipes e WHERE e.id_equipe = equipe AND e.id_tournoi = " + this.tournoi.getIdTournoi() + ") as joueur2, SUM(score) as score, (SELECT count(*) FROM matchs m WHERE (m.equipe1 = equipe AND m.score1 > m.score2  AND m.id_tournoi = id_tournoi) OR (m.equipe2 = equipe AND m.score2 > m.score1 )) as matchs_gagnes, (SELECT COUNT(*) FROM matchs m WHERE m.equipe1 = equipe OR m.equipe2=equipe) as matchs_joues FROM  (select equipe1 as equipe,score1 as score from matchs where id_tournoi=" + this.tournoi.getIdTournoi() + " UNION select equipe2 as equipe,score2 as score from matchs where id_tournoi=" + this.tournoi.getIdTournoi() + ") GROUP BY equipe ORDER BY matchs_gagnes DESC;");
-			while(rs.next()){
-				v = new Vector<Object>();
-				v.add(rs.getInt("equipe"));
-				v.add(rs.getString("joueur1"));
-				v.add(rs.getString("joueur2"));
-				v.add(rs.getInt("score"));
-				v.add(rs.getInt("matchs_gagnes"));
-				v.add(rs.getInt("matchs_joues"));
-				to.add(v);
-			}
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-		Vector<String> columnNames = new Vector<String>();
-		columnNames.add("Numéro d'équipe");
-		columnNames.add("Nom joueur 1");
-		columnNames.add("Nom joueur 2");
-		columnNames.add("Score");
-		columnNames.add("Matchs gagnés");
-		columnNames.add("Matchs joués");
-		resultats_jt = new JTable(to,columnNames );		
-		resultats_jt.setAutoCreateRowSorter(true);
-		
 		if(resultats_trace){
-			resultats_js.setViewportView(resultats_jt);
+			resultsPanel.refresh();
 		}else{
 			resultats_trace = true;
-			resultats_p      = new JPanel();
-			resultats_layout = new BoxLayout(resultats_p, BoxLayout.Y_AXIS);
+			resultsPanel = new ResultsPanel(this);
 			
-			resultats_p.setLayout(resultats_layout);
-			resultats_desc = new JLabel("Résultats du tournoi");
-			resultats_p.add(resultats_desc);
-			resultats_p.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
-			centerPanel.add(resultats_p, RESULTATS );
-	
-			
-			
-			
-
-			resultats_js = new JScrollPane(resultats_jt);
-			resultats_p.add(resultats_js);
-			//jt.setPreferredSize(getMaximumSize());
-
-			
-			resultats_bas = new JPanel();
-			resultats_bas.add(resultats_statut = new JLabel("Gagnant:"));
-			
-			resultats_p.add(resultats_bas);
 		}
 
 		fen.show(centerPanel, RESULTATS);

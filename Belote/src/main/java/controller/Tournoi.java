@@ -3,10 +3,7 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Vector;
-import javax.swing.JOptionPane;
-
 import dao.AccessEquipe;
 import dao.AccessMatch;
 import dao.AccessTournoi;
@@ -33,8 +30,6 @@ public class Tournoi {
 	private Vector<Integer> idEquipes = null;
 
 	
-	private Statement statement;
-	
 	public int getIdTournoi() {
 		return this.idTournoi;
 	}
@@ -44,8 +39,6 @@ public class Tournoi {
 	}
 
 	public Tournoi(String _numeroTournoi, Statement _statement){
-		statement = _statement;
-
 		try {
 
 			ResultSet rs = requetesTournoi.getTournoisByName(Tournoi.mysql_real_escape_string(_numeroTournoi));
