@@ -24,8 +24,6 @@ public class ResultsPanel extends JPanel{
     private BoxLayout                  resultats_layout;
     private JLabel                     resultats_desc;
     private JPanel                     resultats_bas;
-    private JLabel                     resultats_statut;
-
     public void before() {
         
 		to = new Vector<Vector<Object>>();
@@ -77,7 +75,7 @@ public class ResultsPanel extends JPanel{
         this.add(resultats_js);
     
         resultats_bas = new JPanel();
-        resultats_bas.add(resultats_statut = new JLabel("Gagnant:"));
+        resultats_bas.add(new JLabel("Gagnant:"));
         
         this.add(resultats_bas);
     }

@@ -25,14 +25,8 @@ public class ToursPanel extends JPanel{
 
     private JTable                     tours_t;
     private JScrollPane                tours_js;
-    private JPanel                     tours_p;
-    private BoxLayout                  tours_layout;
-    private JLabel                     tours_desc;
-    
     private JButton                    tours_ajouter;
     private JButton                    tours_supprimer;
-    private JButton                    tours_rentrer;
-
     public void before() {
       to = new Vector<Vector<Object>>();
       Vector<Object> v;
