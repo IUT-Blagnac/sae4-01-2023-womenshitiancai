@@ -25,15 +25,15 @@ public class AccessEquipe {
     }  
     
     public void ajouterEquipe(Tournoi tournoi){
-		int a_aj= tournoi.getDataeq().size()+1;
-		for ( int i=1;i <= tournoi.getDataeq().size(); i++){
-			if(!tournoi.getIdeqs().contains(i)){
+		int a_aj= tournoi.getEquipes().size()+1;
+		for ( int i=1;i <= tournoi.getEquipes().size(); i++){
+			if(!tournoi.getIdEquipes().contains(i)){
 				a_aj=i;
 				break;
 			}
 		}
 		try {
-			statement.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+a_aj+", "+tournoi.getId_tournoi() + ",'\"Joueur 1\"', '\"Joueur 2\"');");
+			statement.executeUpdate("INSERT INTO equipes (id_equipe,num_equipe,id_tournoi,nom_j1,nom_j2) VALUES (NULL,"+a_aj+", "+tournoi.getIdTournoi() + ",'\"Joueur 1\"', '\"Joueur 2\"');");
 		    tournoi.majEquipes();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -43,7 +43,7 @@ public class AccessEquipe {
 
     public void majEquipe(Tournoi tournoi, int index){
 		try {
-			String req = "UPDATE equipes SET nom_j1 = '" + Tournoi.mysql_real_escape_string(tournoi.getEquipe(index).getEq1()) + "', nom_j2 = '" + Tournoi.mysql_real_escape_string(tournoi.getEquipe(index).getEq2()) + "' WHERE id_equipe = " + tournoi.getEquipe(index).getId() + ";";
+			String req = "UPDATE equipes SET nom_j1 = '" + Tournoi.mysql_real_escape_string(tournoi.getEquipe(index).getNomEquipe1()) + "', nom_j2 = '" + Tournoi.mysql_real_escape_string(tournoi.getEquipe(index).getNomEquipe2()) + "' WHERE id_equipe = " + tournoi.getEquipe(index).getIdEquipe() + ";";
 			System.out.println(req);
 			statement.executeUpdate(req);
 		    tournoi.majEquipes();
@@ -64,8 +64,8 @@ public class AccessEquipe {
 			rs.next();
 			numeq = rs.getInt(1);
 			rs.close();
-			statement.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + tournoi.getId_tournoi()+ " AND id_equipe = " + ideq);
-			statement.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + tournoi.getId_tournoi() + " AND num_equipe > " + numeq);
+			statement.executeUpdate("DELETE FROM equipes WHERE id_tournoi = " + tournoi.getIdTournoi()+ " AND id_equipe = " + ideq);
+			statement.executeUpdate("UPDATE equipes SET num_equipe = num_equipe - 1 WHERE id_tournoi = " + tournoi.getIdTournoi() + " AND num_equipe > " + numeq);
 		    tournoi.majEquipes();
 		    
 		} catch (SQLException e) {

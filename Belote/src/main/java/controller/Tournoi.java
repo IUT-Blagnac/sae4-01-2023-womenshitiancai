@@ -19,43 +19,43 @@ public class Tournoi {
 	AccessMatch requetesMatch = new AccessMatch();
 	AccessEquipe requestEquipe = new AccessEquipe();
 
-	private String statuttnom;
-	private String nt;
+	private String StatutTournoi;
+	private String numeroTournoi;
 	private int statut;
 
 	
 
-	private int id_tournoi;
+	private int idTournoi;
 
 	
 	//int    nbtours;
-	private Vector<Equipe> dataeq = null;
-	private Vector<Match> datam = null;
-	private Vector<Integer> ideqs = null;
+	private Vector<Equipe> equipes = null;
+	private Vector<Match> matchs = null;
+	private Vector<Integer> idEquipes = null;
 
 	
-	private Statement st;
+	private Statement statement;
 	
-	public int getId_tournoi() {
-		return this.id_tournoi;
+	public int getIdTournoi() {
+		return this.idTournoi;
 	}
 
-	public void setId_tournoi(int _id_tournoi) {
-		this.id_tournoi = _id_tournoi;
+	public void setIdTournoi(int _idTournoi) {
+		this.idTournoi = _idTournoi;
 	}
 
-	public Tournoi(String nt, Statement s){
-		st = s;
+	public Tournoi(String _numeroTournoi, Statement _statement){
+		statement = _statement;
 
 		try {
 
-			ResultSet rs = requetesTournoi.getTournoisByName(Tournoi.mysql_real_escape_string(nt));
+			ResultSet rs = requetesTournoi.getTournoisByName(Tournoi.mysql_real_escape_string(_numeroTournoi));
 			if(!rs.next()){
 				return ;
 			}
 			this.statut = rs.getInt("statut");
 			
-			setId_tournoi(rs.getInt("id_tournoi"));
+			setIdTournoi(rs.getInt("id_tournoi"));
 			rs.close();
 
 		} catch (SQLException e) {
@@ -66,38 +66,38 @@ public class Tournoi {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		statuttnom = "Inconnu";
+		StatutTournoi = "Inconnu";
 		switch(this.statut){
 		//case 0:
 		//	statuttnom = "Configuration du tournoi";
 		//break;
 		case 0:
-			statuttnom = "Inscription des joueurs";
+			StatutTournoi = "Inscription des joueurs";
 		break;
 		case 1:
-			statuttnom = "Génération des matchs";
+			StatutTournoi = "Génération des matchs";
 		break;
 		case 2:
-			statuttnom = "Matchs en cours";
+			StatutTournoi = "Matchs en cours";
 		break;
 		case 3:
-			statuttnom = "Terminé";
+			StatutTournoi = "Terminé";
 		break;
 			
 		}
-		this.nt = nt;
+		this.numeroTournoi = _numeroTournoi;
 		
 	}
 	
 	public void majEquipes(){
-		dataeq = new Vector<Equipe>();
-		ideqs = new Vector<Integer>();
+		equipes = new Vector<Equipe>();
+		idEquipes = new Vector<Integer>();
 		try {
-			ResultSet rs = requestEquipe.getEquipeByID(getId_tournoi(), "num_equipe");
+			ResultSet rs = requestEquipe.getEquipeByID(getIdTournoi(), "num_equipe");
 
 			while(rs.next()){
-				dataeq.add(new Equipe(rs.getInt("id_equipe"),rs.getInt("num_equipe"), rs.getString("nom_j1"), rs.getString("nom_j2")));
-				ideqs.add(rs.getInt("num_equipe"));
+				equipes.add(new Equipe(rs.getInt("id_equipe"),rs.getInt("num_equipe"), rs.getString("nom_j1"), rs.getString("nom_j2")));
+				idEquipes.add(rs.getInt("num_equipe"));
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -106,10 +106,10 @@ public class Tournoi {
 		}
 	}
 	public void majMatch(){
-		datam = new Vector<Match>();
+		matchs = new Vector<Match>();
 		try {
-			ResultSet rs = requetesTournoi.getTournoisByID(getId_tournoi());
-			while(rs.next()) datam.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
+			ResultSet rs = requetesTournoi.getTournoisByID(getIdTournoi());
+			while(rs.next()) matchs.add(new Match(rs.getInt("id_match"),rs.getInt("equipe1"),rs.getInt("equipe2"), rs.getInt("score1"),rs.getInt("score2"),rs.getInt("num_tour"),rs.getString("termine") == "oui"));
 			//public MatchM(int _idmatch,int _e1,int _e2,int _score1, int _score2, int _num_tour, boolean _termine)
 			rs.close();
 		} catch (SQLException e) {
@@ -118,47 +118,47 @@ public class Tournoi {
 		}
 	}
 	public Match getMatch(int index){
-		if(datam == null) majMatch();
-		return datam.get(index);
+		if(matchs == null) majMatch();
+		return matchs.get(index);
 	}
 	public int getNbMatchs(){
-		if(datam == null) majMatch();
-		return datam.size();
+		if(matchs == null) majMatch();
+		return matchs.size();
 	}
 	public Equipe getEquipe(int index){
-		if(dataeq == null) 
+		if(equipes == null) 
 			majEquipes();
-		return dataeq.get(index);
+		return equipes.get(index);
 		
 	}
 	public int getNbEquipes(){
-		if(dataeq == null) 
+		if(equipes == null) 
 		majEquipes();
-		return dataeq.size();
+		return equipes.size();
 	}
 
-	public Vector<Equipe> getDataeq() {
-		return this.dataeq;
+	public Vector<Equipe> getEquipes() {
+		return this.equipes;
 	}
 
-	public void setDataeq(Vector<Equipe> dataeq) {
-		this.dataeq = dataeq;
+	public void setEquipes(Vector<Equipe> dataeq) {
+		this.equipes = dataeq;
 	}
 
-	public Vector<Match> getDatam() {
-		return this.datam;
+	public Vector<Match> getMatchs() {
+		return this.matchs;
 	}
 
-	public void setDatam(Vector<Match> datam) {
-		this.datam = datam;
+	public void setMatchs(Vector<Match> datam) {
+		this.matchs = datam;
 	}
 
-	public Vector<Integer> getIdeqs() {
-		return this.ideqs;
+	public Vector<Integer> getIdEquipes() {
+		return this.idEquipes;
 	}
 
-	public void setIdeqs(Vector<Integer> ideqs) {
-		this.ideqs = ideqs;
+	public void setIdEquipes(Vector<Integer> ideqs) {
+		this.idEquipes = ideqs;
 	}
 	
 	public void setStatut(int statut) {
@@ -169,14 +169,14 @@ public class Tournoi {
 		return statut;
 	}
 	public String getNStatut(){
-		return statuttnom;
+		return StatutTournoi;
 	}
 	public String getNom() {
-		return nt;
+		return numeroTournoi;
 	}
 	public int getNbTours(){
 		try {
-			ResultSet rs = requetesTournoi.getTournoisDernierTour(id_tournoi);
+			ResultSet rs = requetesTournoi.getTournoisDernierTour(idTournoi);
 			rs.next();
 			return rs.getInt(1);
 		} catch (SQLException e) {
