@@ -68,7 +68,7 @@ Projet est réalisé par::
 
 == Refactoring
 
-=== Structuration en packages (MVC)
+=== Structuration en packages (MVC) [Anton XU]
 
 ==== Description
 
@@ -105,7 +105,7 @@ Architecture de l'application finale::
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (tournoiPane) #15]
 
-=== Migration sous Maven 
+=== Migration sous Maven [Anton XU]
 
 ==== Description
 
@@ -118,7 +118,7 @@ Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa co
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/2[Migrer sous Maven #2]
 
-=== Bonnes pratiques de codage des attributs
+=== Bonnes pratiques de codage des attributs [Louis YVELIN]
 
 ==== Description
 
@@ -137,7 +137,7 @@ Les bonnes pratiques sont::
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
 
-=== Supprimer la classe Match
+=== Supprimer la classe Match [Louis YVELIN]
 
 ==== Description
 
@@ -154,7 +154,7 @@ Le travail effectué::
 
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/12[Supprimer classe interne Match : Tournoi et belote #12]
 
-=== Créer des classes d'accès à la base de données (DAO)
+=== Créer des classes d'accès à la base de données (DAO) [Louis YVELIN, Anton XU]
 
 ==== Description
 
@@ -172,7 +172,7 @@ Le travail effectué::
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[Package dao #9]
 * link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/25[rename package dao #25]
 
-=== Séparation de la classe Fenetre en différentes classes
+=== Séparation de la classe Fenetre en différentes classes [Anton XU]
 
 ==== Description
 
