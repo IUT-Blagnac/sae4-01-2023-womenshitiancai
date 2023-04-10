@@ -166,6 +166,7 @@ Le travail effectué::
 * Création des classes AccessDB, AccessTournoi, AccessEquipe, AccessMatch
 * Classe Belote : Utilisation de AccessDB pour initialiser la connexion à la base de données
 * Il est à noter que la classe AccessDB est un singleton pour s'assurer qu'il n'y ait qu'une seule connexion à la base de données
+* Remplacer toutes les requêtes exécutées à la volée par des appels de méthodes appartenant aux classes DAO
 
 ==== Issue associée
 
