@@ -35,7 +35,7 @@ ifdef::env-github[]
 endif::[]
 
 // /!\ A MODIFIER !!!
-:baseURL: https://github.com/IUT-Blagnac/sae4-01-template
+:baseURL: https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai
 
 // Tags
 image:{baseURL}/actions/workflows/build.yml/badge.svg[Build] 
@@ -47,7 +47,7 @@ TIP: Pensez à mettre à jour les infos dans ce fichier pour que les badges poin
 
 == _Refactoring_ d'un code existant
 
-image::belote2019.png[]
+image::assets/belote2019.png[]
 
 WARNING: Ce dépôt présente le projet à développer dans le cadre de la SAÉ 4.A.01 du BUT1 Informatique de l'IUT de Blagnac.
 
@@ -58,10 +58,168 @@ Vous trouverez le dépôt "template" qui a servi de base ici : https://github.co
 
 Projet est réalisé par::
 
-- https://github.com/janeDoe[Jane Doe]
-- https://github.com/johnSmith[John Smith]
-...
+- https://github.com/L-Yvelin[Louis Yvelin]
+- https://github.com/Anxton[Anton Xu]
+- https://github.com/RepliKode[Vincent Miqueu-Denjean] (a rejoint le projet en cours de route)
 
+== Livrables
+
+=== link:doc/analyse_existant.adoc[Etape 1 - Analyse du code existant]
+
+== Refactoring
+
+=== Structuration en packages (MVC) [Anton XU, Louis YVELIN]
+
+==== Description
+
+Ce refactoring consiste à structurer l'application afin de séparer les responsabilités de chaque classe dans des paquetages associés à leur fonction.
+
+Ce refactoring est très important à réaliser afin de poursuivre le refactoring. En effet, les différents paquetages (qui évolueront au fil du refactoring) permettent d'avoir une vision globale de la séparation des fonctions présentes dans chaque classe.
+
+.Première séparation
+* `Belote`
+* model
+** `Equipe`
+** `MatchM`
+* view
+** `Fenetre`
+* controller
+** `Tournoi`
+
+.Architecture de l'application finale
+* `Belote`
+* model
+** `Equipe`
+** `Match`
+* view
+** `MainFrame`
+** `TournoisPanel`
+** `DetailsPanel`
+** `EquipesPanel` 
+** `ToursPanel` 
+** `MatchsPanel` 
+** `ResultsPanel`
+* controller
+** `Tournoi`
+* utils
+** `FenetreErreur`
+* dao
+** `AccessDB`
+** `AccessTournoi`
+** `AccessEquipe`
+** `AccessMatch`
+
+==== Issues associées
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/3[Séparer en packages (MVC) #3]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[AccessDB, AccessTournoi, AccessEquipe, AccessMatch #9]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (TournoisPanel) #15]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/33[Diviser classe Fenetre (DetailsPanel) #33]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/34[Diviser classe Fenetre (EquipesPanel) #34]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/35[Diviser classe Fenetre (ToursPanel) #35]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/36[Diviser classe Fenetre (MatchsPanel) #36]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/37[Diviser classe Fenetre (ResultsPanel) #37]
+
+=== Migration sous Maven [Anton XU]
+
+==== Description
+
+Ce refactoring consiste à migrer l'application pour qu'elle utilise Maven. +
+De cette manière, nous rendons automatique la build ainsi que la gestion des dépendances.
+
+Pour lancer l'application, nous utilisons le plugin `exec-maven-plugin` et sa commande `mvn exec:java`.
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/2[Migrer sous Maven #2]
+
+=== Bonnes pratiques de codage des attributs [Louis YVELIN, Anton XU]
+
+==== Description
+
+Ce refactoring consiste à mettre en place les bonnes pratiques de codage pour les attributs des classes de l'application et les variables.
+
+Les bonnes pratiques sont::
+* Donner des noms descriptifs aux variables
+* Créer des getter et des setter pour chaque attribut
+* Mettre les attributs des classes en privé
+* Accéder à ces attributs par l'utilisation des getter et setter
+* Renommer toutes les variables en leur donnant plus de sens et en suivant la nomenclature camelCase.
+
+==== Issues associées
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/4[setter/getter, attributs privés #4]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/20[Rendre les noms de variables descriptifs #20]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/24[Variables descriptives #24]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/33[Diviser classe Fenetre (DetailsPanel) #33]
+
+=== Supprimer la classe Match [Louis YVELIN]
+
+==== Description
+
+Ce refactoring consiste à supprimer la classe Match dans les classes Tournoi et Belote.
+
+Ces classes internes sont utilisées en plus de la classe model, ce qui est redondant.
+
+Le travail effectué::
+* Dans la classe Belote, la classe Match est complètement inutile, d'où sa suppression.
+* Dans la classe Tournoi, la classe Match est un duplicata de la classe MatchM présente dans un fichier à part. Elle a pour unique but d'avoir un constructeur simplifié. Il a donc fallu déplacer ce constructeur dans la classe MatchM.
+* Enfin, pour simplifier le code, nous avons renommé la classe MatchM en Match.
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/12[Supprimer classe interne Match : Tournoi et belote #12]
+
+=== Créer des classes d'accès à la base de données (DAO) [Louis YVELIN, Anton XU]
+
+==== Description
+
+Ce refactoring consiste à créer un package `dao` dont l'objectif est de rassembler les classes d'accès à la base de données.
+
+De cette manière, nous créons une interface accessible par le reste de l'application, dont l'objectif unique est la connexion à la base de données.
+
+Le travail effectué::
+* Création des classes AccessDB, AccessTournoi, AccessEquipe, AccessMatch
+* Classe Belote : Utilisation de AccessDB pour initialiser la connexion à la base de données
+* Il est à noter que les classes du package `dao` sont des singleton pour s'assurer qu'il n'y ait qu'une seule connexion à la base de données
+* Remplacer toutes les requêtes exécutées à la volée par des appels de méthodes appartenant aux classes DAO
+
+==== Issue associée
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/9[AccessDB, AccessTournoi, AccessEquipe, AccessMatch #9]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/25[rename package dao #25]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/29[Implementer AccessTournois pour les requêtes de Fenetre #29]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/30[rendre singleton les classes dao #30]
+
+
+=== Séparation de la classe Fenetre en différentes classes [Anton XU]
+
+==== Description
+
+L'objectif est de réduire la complexité de la classe Fenetre en respectant le principe SOLID où chaque classe a une seule responsabilité afin de structurer la partie view de l'application et la rendre extensible.
+
+Nous gardons la fenêtre principale (renommée `MainFrame`) qui gère des sous-vues qui sont initiées dans leur propre classe.
+
+Ces sous-vues sont des classes qui héritent de JPanel, on utilise le pattern Observer afin de notifier aux vues qu'il faut mettre à jour leur affichage.
+
+Fenêtre principale::
+* `MainFrame`
+Sous-vues::
+* `TournoisPanel` +
+* `DetailsPanel` +
+* `EquipesPanel` +
+* `ToursPanel` +
+* `MatchsPanel` +
+* `ResultsPanel`
+
+==== Issues associées
+
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/15[Diviser classe Fenetre (TournoisPanel) #15]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/33[Diviser classe Fenetre (DetailsPanel) #33]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/34[Diviser classe Fenetre (EquipesPanel) #34]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/35[Diviser classe Fenetre (ToursPanel) #35]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/36[Diviser classe Fenetre (MatchsPanel) #36]
+* link:https://github.com/IUT-Blagnac/sae4-01-2023-womenshitiancai/issues/37[Diviser classe Fenetre (ResultsPanel) #37]
 
 == Contexte général
 
@@ -147,7 +305,6 @@ TIP: En cas de besoin, n'hésitez pas à me contacter (jean-michel.bruel@univ-tl
 **********************************************************************
 Document généré par mailto:{email}[{author}] via {asciidoctorlink} (version `{asciidoctor-version}`).
 Pour l'instant ce document est libre d'utilisation et géré par la 'Licence Creative Commons'.
-image:88x31.png["Licence Creative
-Commons",style="border-width:0",link="http://creativecommons.org/licenses/by-sa/3.0/"]
+image:assets/88x31.png["Licence CreativeCommons",style="border-width:0",link="http://creativecommons.org/licenses/by-sa/3.0/"]
 http://creativecommons.org/licenses/by-sa/3.0/[licence Creative Commons Paternité - Partage à l&#39;Identique 3.0 non transposé].
 **********************************************************************
